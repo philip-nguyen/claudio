@@ -1,6 +1,41 @@
-# Getting Started with Create React App
+# ClAud-io
+A Web-based digitial audio workstation working prototype that features a sequencer, its users and their music compositions.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Initial Setup 
+Once you clone the repo:
+```
+npm install
+```
+`cd` into the api directory (for UNIX and Cygwin)
+and install flask and python-dotenv
+and if we'll be needing other libraries, here is where we can install them:
+```
+cd api
+python3 -m venv venv
+source venv/bin/activate
+pip install flask python-dotenv
+```
+**If we start using other python libraries pls add them here to the readme as well.**
+
+
+There is an added a custom script in node.packages called `start-api` which starts the flask app from the top of the directory. It just executes `flask run`. This doesn't seem to work on cygwin though...
+
+## To Run Flask server
+### Mac/Linux:
+```
+npm run-script start-api
+```
+
+### Cygwin(Windows)/Mac/Linux
+```
+cd api
+source venv/bin/activate
+flask run
+```
+
+**Remember that you need 2 terminals to run both the servers**
+
+![two-servers](https://user-images.githubusercontent.com/55335418/110071827-9a44c600-7d31-11eb-8dc7-149e7b04b174.PNG)
 
 ## Available Scripts
 
@@ -38,33 +73,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
