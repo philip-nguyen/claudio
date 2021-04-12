@@ -82,6 +82,8 @@ const Sequence = () => {
         setBPM(event.target.value);
     }
 
+    // TODO: create save function
+
     const PlaySequence = async () => {
         // Variable for storing our notes in an appropriate format for our synth
         let notes = [];
