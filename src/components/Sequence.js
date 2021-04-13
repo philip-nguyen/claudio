@@ -71,6 +71,26 @@ const Sequence = () => {
         */
     }
     
+    // TODO: create save function
+    const saveNotes = () => {
+        var notes = [];
+        grid.map((step, stepIndex) => {
+            step.map((note, noteIndex) => {
+                if(note.isActive) {
+                    // add to the saved Notes collection
+                    var currentNote = {
+                        beat: stepIndex,
+                        noteIndex: noteIndex,
+                        note: note.note,
+                    }
+                    notes.push(currentNote);
+                }
+            })
+        })
+        console.log(notes);
+        //return notes;
+    }
+
     const clearSelectedPads = () => {
         document.querySelectorAll(".pad-pressed").forEach(pad => {
           pad.classList.remove("pad-pressed");
@@ -82,7 +102,7 @@ const Sequence = () => {
         setBPM(event.target.value);
     }
 
-    // TODO: create save function
+
 
     const PlaySequence = async () => {
         // Variable for storing our notes in an appropriate format for our synth
@@ -146,7 +166,10 @@ const Sequence = () => {
                     <button id="play" className="navigation-buttons fa fa-play"
                         onClick={() => PlaySequence()}
                         ><i className="play icon"></i></button>
-                    <button id="record" className="navigation-buttons fa fa-microphone"></button>
+                    <button id="save" className="navigation-buttons fa fa-microphone"
+                        onClick={() => saveNotes()}>
+                            <i className="save icon"></i>
+                        </button>
                     <button id="delete" className="navigation-buttons fa fa-trash" 
                         onClick={() => clearSelectedPads()}>
                             <i className="trash alternate icon"></i>
