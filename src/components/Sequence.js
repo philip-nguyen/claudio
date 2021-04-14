@@ -88,7 +88,7 @@ const Sequence = () => {
             })
         })
         console.log(notes);
-        //return notes;
+        // return notes; 
     }
 
     const clearSelectedPads = () => {
@@ -164,8 +164,9 @@ const Sequence = () => {
                 <div id="controls" className="buttons">
                     <button id="stop" className="navigation-buttons fa fa-stop" disabled></button>
                     <button id="play" className="navigation-buttons fa fa-play"
-                        onClick={() => PlaySequence()}
-                        ><i className="play icon"></i></button>
+                        onClick={() => PlaySequence()}>
+                            <i className="play icon"></i>
+                        </button>
                     <button id="save" className="navigation-buttons fa fa-microphone"
                         onClick={() => saveNotes()}>
                             <i className="save icon"></i>
