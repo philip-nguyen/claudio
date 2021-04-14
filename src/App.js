@@ -4,6 +4,7 @@ import fire from "./fire"
 import "./App.css";
 import Login from "./Login";
 import Hero from "./Hero";
+import Sequence from './components/Sequence';
 
 const App = () => {
   const [user, setUser] = useState('');
@@ -95,7 +96,7 @@ const App = () => {
   return(
     <div className ="App">
       {user ? (
-        <Hero handleLogout = {handleLogout} />
+        <Sequence />
       ) : (
         <Login
         email = {email}
