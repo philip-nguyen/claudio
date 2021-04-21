@@ -1,7 +1,12 @@
 import React, {useState, useEffect} from "react";
 import fire from "./fire"
 import "./App.css";
+import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from "./Login";
+import Compositions from './components/Compositions'
+import Discover from './components/Discover'
+import Home from './components/Home'
 import Hero from "./Hero";
 import Sequence from './components/Sequence';
 
@@ -95,7 +100,15 @@ const App = () => {
   return(
     <div className ="App">
       {user ? (
-        <Sequence />
+        <Router>
+        <Navbar handleLogout = {handleLogout} />
+        <Switch>
+          <Route path='/Home' component={Home} />
+          <Route path='/compositions' component={Compositions} />
+          <Route path='/discover' component={Discover} />
+          <Route path='/sequence' component={Sequence}/>
+        </Switch>
+      </Router>
       ) : (
         <Login
         email = {email}
