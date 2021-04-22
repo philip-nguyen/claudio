@@ -36,12 +36,10 @@ export default function SongCard(props) {
                             <Card.Subtitle id="date" className="mb-2 text-muted">
                                 {props.timeDate}
                             </Card.Subtitle>
-                            
-
                         </Col>
 
                         <Col sm={2}>
-                        <IconButton id="playIcon" aria-label="play/pause">
+                            <IconButton id="playIcon" aria-label="play/pause">
                                 <PlayArrowIcon className={classes.playIcon} />
                             </IconButton>
                         </Col>

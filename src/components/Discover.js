@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-
-import "./Discover.css"
+import "./Discover.css";
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, toggle } from 'reactstrap';
 import { useTable } from 'react-table';
 import SongList from "./SongList.js";
-import SongCard from "./SongCard.js";
+import { songs } from './SongList.js'
 import { Button, Card, Row, Col, Container } from "react-bootstrap";
 
 //npm install react-table
@@ -12,19 +11,25 @@ import { Button, Card, Row, Col, Container } from "react-bootstrap";
 //npm install --save reactstrap
 //npm i --save bootstrap jquery popper.js
 
+function sortByTag() {
+    songs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+    document.getElementById('filter').innerHTML = "Tag";
+}
+
+function sortByPopularity() {
+    songs.sort((a, b) => (a.likes < b.likes) ? 1 : -1);
+    document.getElementById('filter').innerHTML = "Popularity";
+}
+
+function sortByDate() {
+    songs.sort((a, b) => (a.timeDate < b.timeDate) ? 1 : -1)
+    document.getElementById('filter').innerHTML = "Date";
+}
+
+
 export default function Discover() {
     const [dropdownOpen, setOpen] = useState(false);
-
     const toggle = () => setOpen(!dropdownOpen);
-
-    const songs = [
-        { id: 1, name: 'Sample Track', likes: '100 Likes', timeDate: '12:30am . 12/14/2020' },
-        { id: 2, name: 'Amazing Track', likes: '500 Likes', timeDate: '12:30am . 12/15/2020' },
-        { id: 3, name: 'Cool Track', likes: '200 Likes', timeDate: '12:30am . 12/16/2020' },
-        { id: 4, name: 'Slow Track', likes: '356 Likes', timeDate: '12:30am . 12/17/2020' },
-    ];
-
-
 
     return (
         <>
@@ -33,29 +38,25 @@ export default function Discover() {
             <h1>Discover Community Compositions</h1>
             <Row>
                 <p className="latest">Latest</p>
-                <p id="sortText"style={{ color: "#3eb360"}}>Sort By</p>
-                <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} className="dropdown">
-                    <DropdownToggle caret size='lg'>
+                <p id="sortText" style={{ color: "#3eb360" }}>Sort By</p>
+                <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} className="dropDown">
+                    <DropdownToggle caret size='lg' id="filter">
                         Filter
                 </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem>tag</DropdownItem>
-                        <DropdownItem>popularity</DropdownItem>
-                        <DropdownItem>recent</DropdownItem>
+                    <DropdownMenu id="menuChoices">
+                        <DropdownItem id="tag" onClick={sortByTag}>tag</DropdownItem>
+                        <DropdownItem id="popularity" onClick={sortByPopularity}>popularity</DropdownItem>
+                        <DropdownItem id="recent"onClick={sortByDate}>recent</DropdownItem>
                     </DropdownMenu>
                 </ButtonDropdown>
             </Row>
-            <Row id="songList">
-            <SongList >
-
-            </SongList>
+            <Row id="songListRow">
+                <SongList id="songList">
+                </SongList>
             </Row>
-            
-
-
-
-
         </>
-    )
+    );
 }
+
+
 

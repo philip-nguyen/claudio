@@ -56,13 +56,13 @@ hr {
     font-size: 25pt;
 }
 
-  .dropdown {
+  .dropDown {
     left: 1000px;
     top: 215px;
     position: absolute;
   }
 
-  #songList {
+  #songListRow {
     position: relative;
-    top: 300px;
+    top: 250px;
   }
