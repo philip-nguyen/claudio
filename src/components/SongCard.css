@@ -1,0 +1,55 @@
+.card { 
+    background-color: #242424 !important;
+  }
+
+#container {
+  margin-left: 75px;
+  margin-top: 30px;
+  position: relative;
+}
+
+#songTitle {
+  margin-top: 5px;
+}
+
+#date{
+    color: white;
+}
+
+#playIcon {
+  margin-top: -5px;
+  margin-left: -90px;
+  color: #3eb360;
+}
+
+#likes {
+    font-size: 15pt;
+    color: #3eb360;
+    margin-top: 20px;
+  
+}
+
+#likeButton {
+    margin-top: 15px;
+    width: 150px;
+    height: 40px;
+    border-radius: 25px;
+    border: #3eb360;
+    background-color: #3eb360;
+    font-weight: 500;
+    font-size: 15pt;
+    vertical-align: middle;
+  }
+
+  #deleteButton {
+    margin-top: 15px;
+    width: 150px;
+    height: 40px;
+    border-radius: 25px;
+    border: #707070;
+    background-color: #707070;
+    color: white;
+    font-weight: 500;
+    font-size: 15pt;
+    vertical-align: middle;
+  }
