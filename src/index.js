@@ -5,4 +5,8 @@ import App from './App';
 import "bootstrap/dist/css/bootstrap.css";
 
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(
+    <React.StrictMode>
+        <App />
+      </React.StrictMode>, 
+      document.querySelector('#root')); 
