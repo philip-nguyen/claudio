@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import fire from "./fire"
 import "./App.css";
-import Navbar from './components/Navbar';
+import NavigationMenu from './components/NavigationMenu';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from "./Login";
 import Compositions from './components/Compositions'
@@ -101,7 +101,7 @@ const App = () => {
     <div className ="App">
       {user ? (
         <Router>
-        <Navbar handleLogout = {handleLogout} />
+        <NavigationMenu handleLogout = {handleLogout} />
         <Switch>
           <Route path='/Home' component={Home} />
           <Route path='/compositions' component={Compositions} />
