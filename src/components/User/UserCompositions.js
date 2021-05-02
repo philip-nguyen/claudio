@@ -18,7 +18,7 @@ export default function UserCompositions() {
     return (
         <>
             <hr />
-            <hr id="line2" />
+            
             {/* NAVBAR? */}
 
             <h1>Hello User</h1>

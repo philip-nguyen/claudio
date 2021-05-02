@@ -34,7 +34,7 @@ export default function Discover() {
     return (
         <>
             <hr />
-            <hr id="line2" />
+            
             <h1>Discover Community Compositions</h1>
             <Row>
                 <p className="latest">Latest</p>
