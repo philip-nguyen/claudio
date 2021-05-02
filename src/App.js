@@ -6,6 +6,9 @@ import Hero from "./Hero";
 import Sequence from './components/Sequence';
 import Discover from './components/Discover';
 import UserCompositions from './components/User/UserCompositions'
+import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 
 const App = () => {
   const [user, setUser] = useState('');
@@ -97,7 +100,14 @@ const App = () => {
   return(
     <div className ="App">
       {user ? (
-        <UserCompositions />
+        <Router>
+        <Navbar handleLogout = {handleLogout} />
+        <Switch>
+          <Route path='/compositions' component={Discover} />
+          <Route path='/discover' component={Discover} />
+          <Route path='/sequence' component={Sequence}/>
+        </Switch>
+        </Router>
       ) : (
         <Login
         email = {email}

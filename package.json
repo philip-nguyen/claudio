@@ -27,6 +27,7 @@
     "reactstrap": "^8.9.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.3",
     "tone": "^14.7.77",
     "web-vitals": "^1.1.1"
   },
