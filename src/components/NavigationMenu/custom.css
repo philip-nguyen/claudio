@@ -1,7 +1,20 @@
 .color-nav{
-    background-color: #30303e;
+  background-color: #30303e;
 }
 
 .navItem{
-    color: #3eb360;
+  color: #3eb360;
+  font-family: "Nunito", sans-serif;
+  font-size:x-large;
+} 
+
+.navHome{
+  color: #3eb360;
+  font-family: "Nunito", sans-serif;
+  font-size:xx-large;
+}
+
+.logoutItem{
+  font-family: "Nunito", sans-serif;
+  font-size:x-large;
 }
