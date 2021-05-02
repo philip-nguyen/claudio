@@ -5,6 +5,7 @@ import Login from "./Login";
 import Hero from "./Hero";
 import Sequence from './components/Sequence';
 import Discover from './components/Discover';
+import UserCompositions from './components/User/UserCompositions'
 
 const App = () => {
   const [user, setUser] = useState('');
@@ -96,7 +97,7 @@ const App = () => {
   return(
     <div className ="App">
       {user ? (
-        <Discover />
+        <UserCompositions />
       ) : (
         <Login
         email = {email}

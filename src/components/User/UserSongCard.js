@@ -2,19 +2,19 @@
 import React, {useState} from "react";
 import { Button, Card, Row, Col, Container } from "react-bootstrap";
 import { BsPlayFill } from "react-icons/bs";
-import PlayPause from "./PlayPause";
+import PlayPause from "../PlayPause";
 
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from "prop-types";
 
-import "./SongCard.css"
+import "../SongCard.css"
 
 // npm install @material-ui/core
 // npm install @material-ui/icons
 // npm install react-icons
 
-export default function SongCard(props) {
+export default function UserSongCard(props) {
     //state = { showPlayButton: true };
     
     const showPlayButton = true;
@@ -36,14 +36,19 @@ export default function SongCard(props) {
                         </Col>
 
                         <Col sm={2}>
-                            <BsPlayFill id = "playButton"></BsPlayFill>
+                            <BsPlayFill id = "playButton2"></BsPlayFill>
                         </Col>
 
                         <Col sm={2}>
-                            <Card.Text id="likes">{props.likes}</Card.Text>
+                            <Card.Text id="likes2">{props.likes}</Card.Text>
                         </Col>
-                        <Col sm={4}>
-                            <Button id="likeButton" variant="primary">Like</Button>
+                        <Col sm={2}>
+                            <Button id="likeButton2" variant="primary">Like</Button>
+                        </Col>
+                        
+                        <Col sm={2}>
+                        <Button id="deleteButton" variant="primary">Delete</Button>
+
                         </Col>
                     </Row>
 
@@ -57,7 +62,7 @@ export default function SongCard(props) {
     );
 }
 
-SongCard.propTypes = {
+UserSongCard.propTypes = {
     songName: PropTypes.string.isRequired,
     likes: PropTypes.string.isRequired,
     timeDate: PropTypes.string.isRequired
