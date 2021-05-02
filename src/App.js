@@ -103,7 +103,7 @@ const App = () => {
         <Router>
         <Navbar handleLogout = {handleLogout} />
         <Switch>
-          <Route path='/compositions' component={Discover} />
+          <Route path='/compositions' component={UserCompositions} />
           <Route path='/discover' component={Discover} />
           <Route path='/sequence' component={Sequence}/>
         </Switch>
