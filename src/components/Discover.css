@@ -66,3 +66,17 @@ hr {
     position: relative;
     top: 250px;
   }
+
+#newComposition {
+    position: absolute;
+    top: 220px;
+    left: -245px;
+    width: 150px;
+    height: 40px;
+    border-radius: 25px;
+    border: #3eb360;
+    background-color: #3eb360;
+    font-weight: 500;
+    font-size: 15pt;
+    vertical-align: middle;
+}

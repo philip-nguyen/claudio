@@ -26,11 +26,38 @@
     font-size: 15pt;
     color: #3eb360;
     margin-top: 20px;
+    margin-left: 30px;
   
+}
+
+#likes2 {
+  font-size: 15pt;
+  color: #3eb360;
+  margin-top: 20px;
+  margin-left: -40px;
+
+}
+
+#playButton {
+  margin-top: 10px;
+  margin-left: -20px;
+  width: 50px;
+  height: 50px;
+  color: #3eb360;
+}
+
+#playButton2 {
+  margin-top: 10px;
+  margin-left: -50px;
+  width: 50px;
+  height: 50px;
+  color: #3eb360;
 }
 
 #likeButton {
     margin-top: 15px;
+    margin-left: 100px;
+
     width: 150px;
     height: 40px;
     border-radius: 25px;
@@ -40,6 +67,19 @@
     font-size: 15pt;
     vertical-align: middle;
   }
+
+#likeButton2 {
+  margin-top: 15px;
+  margin-left: -5px;
+  width: 150px;
+  height: 40px;
+  border-radius: 25px;
+  border: #3eb360;
+  background-color: #3eb360;
+  font-weight: 500;
+  font-size: 15pt;
+  vertical-align: middle;
+}
 
   #deleteButton {
     margin-top: 15px;

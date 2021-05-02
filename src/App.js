@@ -5,8 +5,10 @@ import Login from "./Login";
 import Hero from "./Hero";
 import Sequence from './components/Sequence';
 import Discover from './components/Discover';
+import UserCompositions from './components/User/UserCompositions'
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 
 const App = () => {
   const [user, setUser] = useState('');
