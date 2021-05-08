@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import '../style.css';
 import Pad from './Pad';
 import * as Tone from 'tone';
+import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, } from "react-icons/bs";
+import { BiSave } from "react-icons/bi";
 
 function mapMeasure() {
     const measure = [];
@@ -135,20 +137,30 @@ const Sequence = () => {
         await Tone.Transport.start();
     }
 
+    // function to save to firebase
+    const saveComposition = () => {
+        // https://ui.dev/react-router-v4-pass-props-to-components/
+    }
+
     //console.log(grid);
     return (
         <div id="sequencer">
             <div className="sequencer">
                 <div id="controls" className="buttons">
-                    <button id="stop" className="navigation-buttons fa fa-stop" disabled></button>
+                    <button id="stop" className="navigation-buttons fa fa-stop" >
+                        <BsFillPauseFill size={18}/>
+                    </button>
                     <button id="play" className="navigation-buttons fa fa-play"
                         onClick={() => PlaySequence()}
-                        ><i className="play icon"></i></button>
-                    <button id="record" className="navigation-buttons fa fa-microphone"></button>
+                        ><BsPlayFill size={18}/>
+                    </button>
+                    <button id="record" className="navigation-buttons fa fa-microphone">
+                        <BiSave size={18}/>
+                    </button>
                     <button id="delete" className="navigation-buttons fa fa-trash" 
                         onClick={() => clearSelectedPads()}>
-                            <i className="trash alternate icon"></i>
-                        </button>
+                        <BsFillTrashFill size={18}/>
+                    </button>
 
             
                     <div className="select-wrapper">

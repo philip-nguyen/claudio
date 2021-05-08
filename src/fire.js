@@ -10,4 +10,12 @@ var firebaseConfig = {
   };
   // Initialize Firebase
   const fire = firebase.initializeApp(firebaseConfig);
+
+  var db = firebase.database();
+  export const saveComposition = function (currentUser, bpm, synth, highestNotes, notes) {
+    var dbRef = db.ref("/users");
+    // save data under the current user 
+    // dbRef.child(currentUser.uid).get()
+  }
+
   export default fire;
