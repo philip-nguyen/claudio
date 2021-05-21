@@ -33,7 +33,12 @@ const App = () => {
     clearErrors();
     fire
       .auth()
-      .signInWithEmailAndPassword(email,password)
+      .signInWithEmailAndPassword(email,password).then(function(){
+        if(fire.auth().currentUser.emailVerified == false)
+        {
+          setEmailError("Email not verified")
+        }
+      })
       .catch(err =>{
         switch(err.code){
           case "auth/invalid-email":
@@ -54,7 +59,10 @@ const App = () => {
       {
       fire
         .auth()
-        .createUserWithEmailAndPassword(email,password)
+        .createUserWithEmailAndPassword(email,password).then(userData => {
+          userData.user.sendEmailVerification();
+          window.alert("Verification sent. Please log in to your email and click the verification link.")
+      })
         .catch(err =>{
           switch(err.code){
             case "auth/email-already-in-use":
@@ -99,7 +107,7 @@ const App = () => {
 
   return(
     <div className ="App">
-      {user ? (
+      {user && fire.auth().currentUser.emailVerified ? (
         <Router>
         <NavigationMenu handleLogout = {handleLogout} />
         <Switch>
@@ -108,7 +116,7 @@ const App = () => {
           <Route path='/sequence' component={Sequence}/>
         </Switch>
         </Router>
-      ) : (
+         ) : (
         <Login
         email = {email}
         setEmail = {setEmail}

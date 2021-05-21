@@ -13,13 +13,13 @@ const Login = (props) => {
         hasAccount,
         setHasAccount,
         emailError,
-        passwordError,
+        passwordError
     } = props;
     return(
         <div className="loginPageContainer">
         <div className="titleTextContainer">
-                <h1>ClAud-IO</h1>
-                <h2>Create. Share.</h2>
+                <h2>ClAud-IO</h2>
+                <h3>Create. Share.</h3>
         </div>
         <section className="login">
             <div className = "loginContainer">
