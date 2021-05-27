@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import fire from "./fire"
 import "./App.css";
 import Login from "./Login";
-import Hero from "./Hero";
 import Sequence from './components/Sequence';
 import Discover from './components/Discover';
 import UserCompositions from './components/User/UserCompositions'
@@ -48,6 +47,8 @@ const App = () => {
             break;
           case "auth/wrong-password":
             setPasswordError(err.message);
+          default:
+              setEmailError(err.message);
           }
 
         });
@@ -55,7 +56,7 @@ const App = () => {
     };
     const handleSignup = () => {
       clearErrors();
-      if(password == confirmPassword)
+      if(password === confirmPassword)
       {
       fire
         .auth()
@@ -71,6 +72,8 @@ const App = () => {
               break;
             case "auth/weak-password":
               setPasswordError(err.message);
+            default:
+                setEmailError(err.message);
             }
   
           });
