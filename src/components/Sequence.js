@@ -58,7 +58,7 @@ const Sequence = () => {
             // Flip isActive for the clicked note-cell in our grid
             if (columnIndex === clickedColumn && cellIndex === clickedNote) {
               cellCopy.isActive = !cell.isActive;
-              console.log(cell);
+              //console.log(cell);
             }
     
             return cellCopy;
@@ -82,6 +82,15 @@ const Sequence = () => {
     const handleBpmChange = event => {
         console.log(event.target.value);
         setBPM(event.target.value);
+    }
+
+    const saveNotes = () => {
+        console.log(grid);
+        grid.map((column, columnIndex) => {
+            // TODO: map columns and add to an object array with
+            // columnIndex, cellIndex, note
+            
+        })
     }
 
     const PlaySequence = async () => {
@@ -151,10 +160,11 @@ const Sequence = () => {
                         <BsFillPauseFill size={18}/>
                     </button>
                     <button id="play" className="navigation-buttons fa fa-play"
-                        onClick={() => PlaySequence()}
-                        ><BsPlayFill size={18}/>
+                        onClick={() => PlaySequence()}>
+                        <BsPlayFill size={18}/>
                     </button>
-                    <button id="record" className="navigation-buttons fa fa-microphone">
+                    <button id="record" className="navigation-buttons fa fa-microphone"
+                        onClick={() => saveNotes()}>
                         <BiSave size={18}/>
                     </button>
                     <button id="delete" className="navigation-buttons fa fa-trash" 
