@@ -31,7 +31,7 @@ function mapMeasure() {
 
 const CHOSEN_OCTAVE = "4";
 
-const Sequence = () => {
+const Sequence = (currentUser) => {
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
     const[grid, setGrid] = useState(mapMeasure());
