@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../style.css';
 import Pad from './Pad';
 import * as Tone from 'tone';
-import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, } from "react-icons/bs";
+import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsColumnsGap, } from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
 
 function mapMeasure() {
@@ -86,11 +86,22 @@ const Sequence = () => {
 
     const saveNotes = () => {
         console.log(grid);
-        grid.map((column, columnIndex) => {
-            // TODO: map columns and add to an object array with
-            // columnIndex, cellIndex, note
-            
-        })
+        let activeNotes = [];
+        grid.map((column, columnIndex) => 
+            column.map((cell, cellIndex) => {
+                // check if the cell is active
+                // append to object array with columnIndex, cellIndex, note
+                if(cell.isActive) {
+                    activeNotes.push({
+                        col: columnIndex,
+                        row: cellIndex,
+                        note: cell.note
+                    });
+                }
+            })
+        );
+        //saveComposition()
+
     }
 
     const PlaySequence = async () => {
