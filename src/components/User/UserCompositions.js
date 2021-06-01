@@ -33,7 +33,7 @@ export default function UserCompositions() {
                     </Button>
                 </Col>
             </Row>
-            <Row id="songListRow">
+            <Row id="userSongListRow">
                 <UserSongList id="songList">
                 </UserSongList>
             </Row>

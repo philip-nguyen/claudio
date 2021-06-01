@@ -2,10 +2,8 @@
 import React, {useState} from "react";
 import { Button, Card, Row, Col, Container } from "react-bootstrap";
 import { BsPlayFill } from "react-icons/bs";
-import PlayPause from "./PlayPause";
 
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from "prop-types";
 
 import "./SongCard.css"

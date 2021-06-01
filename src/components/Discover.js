@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Discover.css";
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, toggle } from 'reactstrap';
-import { useTable } from 'react-table';
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import SongList from "./SongList.js";
 import { songs } from './SongList.js'
-import { Button, Card, Row, Col, Container } from "react-bootstrap";
+import {  Row } from "react-bootstrap";
 
 //npm install react-table
 //npm install react-bootstrap bootstrap

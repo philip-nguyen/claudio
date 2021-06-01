@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import fire from "./fire"
 import "./App.css";
 import Login from "./Login";
-import Hero from "./Hero";
 import Sequence from './components/Sequence';
 import Discover from './components/Discover';
 import UserCompositions from './components/User/UserCompositions'

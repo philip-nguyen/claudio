@@ -39,7 +39,7 @@ hr {
     text-align: left;
     left: 75px;
     top: 215px;
-    position: fixed;
+    position: relative;
     font-size: 25pt;
     color: #3eb360;
 
@@ -67,10 +67,15 @@ hr {
     top: 250px;
   }
 
+  #userSongListRow {
+    position: relative;
+    top: 150px;
+  }
+
 #newComposition {
-    position: absolute;
-    top: 220px;
-    left: -245px;
+    position: relative;
+    margin-left: -250px;
+    top: 140px;
     width: 150px;
     height: 40px;
     border-radius: 25px;

@@ -5,7 +5,6 @@ import {
   Bars,
   NavMenu,
   NavBtn,
-  NavBtnLink,
   HomeIcon
 } from './NavbarElements';
 import './Navbar.css';
