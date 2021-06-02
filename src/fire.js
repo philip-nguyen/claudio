@@ -12,8 +12,17 @@ var firebaseConfig = {
   const fire = firebase.initializeApp(firebaseConfig);
 
   var db = firebase.database();
-  export const saveComposition = function (currentUser, bpm, synth, highestNotes, notes) {
-    var dbRef = db.ref("/users");
+  export const saveComposition = function (uid, bpm, synth, highestOctave, notes) {
+    var compListRef = db.ref("users/" + uid + "/compositions");
+    // push to the end of a list
+    var newCompPost = compListRef.push();
+    newCompPost.set({
+      // ... add notes and other metadata here
+      bpm: bpm,
+      synth: synth,
+      highestOctave: histestOctave,
+      notes: notes
+    });
     // save data under the current user 
     // dbRef.child(currentUser.uid).get()
   }
