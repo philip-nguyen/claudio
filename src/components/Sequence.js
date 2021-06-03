@@ -4,6 +4,7 @@ import Pad from './Pad';
 import * as Tone from 'tone';
 import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsColumnsGap, } from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
+import { saveComposition } from '../fire';
 
 function mapMeasure() {
     const measure = [];
@@ -31,7 +32,7 @@ function mapMeasure() {
 
 const CHOSEN_OCTAVE = "4";
 
-const Sequence = (currentUser) => {
+const Sequence = (uid) => {
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
     const[grid, setGrid] = useState(mapMeasure());
@@ -85,7 +86,7 @@ const Sequence = (currentUser) => {
     }
 
     const saveNotes = () => {
-        console.log(grid);
+        //console.log(grid);
         let activeNotes = [];
         grid.map((column, columnIndex) => 
             column.map((cell, cellIndex) => {
@@ -100,8 +101,9 @@ const Sequence = (currentUser) => {
                 }
             })
         );
-        //saveComposition()
-
+        // why no work??
+        
+        saveComposition(uid, bpm, CHOSEN_OCTAVE, activeNotes);
     }
 
     const PlaySequence = async () => {
@@ -118,7 +120,7 @@ const Sequence = (currentUser) => {
             notes.push(stepNotes);
         });
 
-        console.log(notes);
+        //console.log(notes);
         // Starts our Tone Context
         await Tone.start();
 

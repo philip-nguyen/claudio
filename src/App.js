@@ -107,7 +107,7 @@ const App = () => {
           <Route path='/discover' component={Discover} />
           <Route path='/sequence' 
                 render={() => (
-                  <Sequence currentUser={user.uid}/>
+                  <Sequence uid={user.uid}/>
                 )}
                 />
         </Switch>
