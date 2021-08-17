@@ -4,7 +4,7 @@ import Pad from './Pad';
 import * as Tone from 'tone';
 import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsColumnsGap, } from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
-import { saveComposition } from '../fire';
+import { saveComposition } from './../fire.js';
 
 function mapMeasure() {
     const measure = [];
@@ -33,6 +33,7 @@ function mapMeasure() {
 const CHOSEN_OCTAVE = "4";
 
 const Sequence = (uid) => {
+    
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
     const[grid, setGrid] = useState(mapMeasure());
@@ -101,9 +102,8 @@ const Sequence = (uid) => {
                 }
             })
         );
-        // why no work??
-        
-        saveComposition(uid, bpm, CHOSEN_OCTAVE, activeNotes);
+        // call to firebase function, saveComposition
+        saveComposition(uid.uid, bpm, CHOSEN_OCTAVE, activeNotes);
     }
 
     const PlaySequence = async () => {
@@ -159,12 +159,7 @@ const Sequence = (uid) => {
         await Tone.Transport.start();
     }
 
-    // function to save to firebase
-    const saveComposition = () => {
-        // https://ui.dev/react-router-v4-pass-props-to-components/
-    }
 
-    //console.log(grid);
     return (
         <div id="sequencer">
             <div className="sequencer">
