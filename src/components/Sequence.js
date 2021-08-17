@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import '../style.css';
 import Pad from './Pad';
 import * as Tone from 'tone';
+import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsColumnsGap, } from "react-icons/bs";
+import { BiSave } from "react-icons/bi";
+import { saveComposition } from './../fire.js';
 
 function mapMeasure() {
     const measure = [];
@@ -29,7 +32,8 @@ function mapMeasure() {
 
 const CHOSEN_OCTAVE = "4";
 
-const Sequence = () => {
+const Sequence = (uid) => {
+    
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
     const[grid, setGrid] = useState(mapMeasure());
@@ -56,7 +60,7 @@ const Sequence = () => {
             // Flip isActive for the clicked note-cell in our grid
             if (columnIndex === clickedColumn && cellIndex === clickedNote) {
               cellCopy.isActive = !cell.isActive;
-              console.log(cell);
+              //console.log(cell);
             }
     
             return cellCopy;
@@ -82,6 +86,26 @@ const Sequence = () => {
         setBPM(event.target.value);
     }
 
+    const saveNotes = () => {
+        //console.log(grid);
+        let activeNotes = [];
+        grid.map((column, columnIndex) => 
+            column.map((cell, cellIndex) => {
+                // check if the cell is active
+                // append to object array with columnIndex, cellIndex, note
+                if(cell.isActive) {
+                    activeNotes.push({
+                        col: columnIndex,
+                        row: cellIndex,
+                        note: cell.note
+                    });
+                }
+            })
+        );
+        // call to firebase function, saveComposition
+        saveComposition(uid.uid, bpm, CHOSEN_OCTAVE, activeNotes);
+    }
+
     const PlaySequence = async () => {
         // Variable for storing our notes in an appropriate format for our synth
         let notes = [];
@@ -96,7 +120,7 @@ const Sequence = () => {
             notes.push(stepNotes);
         });
 
-        console.log(notes);
+        //console.log(notes);
         // Starts our Tone Context
         await Tone.start();
 
@@ -135,20 +159,26 @@ const Sequence = () => {
         await Tone.Transport.start();
     }
 
-    //console.log(grid);
+
     return (
         <div id="sequencer">
             <div className="sequencer">
                 <div id="controls" className="buttons">
-                    <button id="stop" className="navigation-buttons fa fa-stop" disabled></button>
+                    <button id="stop" className="navigation-buttons fa fa-stop" >
+                        <BsFillPauseFill size={18}/>
+                    </button>
                     <button id="play" className="navigation-buttons fa fa-play"
-                        onClick={() => PlaySequence()}
-                        ><i className="play icon"></i></button>
-                    <button id="record" className="navigation-buttons fa fa-microphone"></button>
+                        onClick={() => PlaySequence()}>
+                        <BsPlayFill size={18}/>
+                    </button>
+                    <button id="record" className="navigation-buttons fa fa-microphone"
+                        onClick={() => saveNotes()}>
+                        <BiSave size={18}/>
+                    </button>
                     <button id="delete" className="navigation-buttons fa fa-trash" 
                         onClick={() => clearSelectedPads()}>
-                            <i className="trash alternate icon"></i>
-                        </button>
+                        <BsFillTrashFill size={18}/>
+                    </button>
 
             
                     <div className="select-wrapper">

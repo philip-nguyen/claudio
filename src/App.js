@@ -104,7 +104,11 @@ const App = () => {
         <Switch>
           <Route path='/compositions' component={UserCompositions} />
           <Route path='/discover' component={Discover} />
-          <Route path='/sequence' component={Sequence}/>
+          <Route path='/sequence' 
+                render={() => (
+                  <Sequence uid={user.uid}/>
+                )}
+                />
         </Switch>
         </Router>
       ) : (
