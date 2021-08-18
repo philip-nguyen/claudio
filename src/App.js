@@ -102,7 +102,10 @@ const App = () => {
         <Router>
         <Navbar handleLogout = {handleLogout} />
         <Switch>
-          <Route path='/compositions' component={UserCompositions} />
+          <Route path='/compositions' 
+                render={() => (
+                  <UserCompositions uid={user.uid} />
+                )} />
           <Route path='/discover' component={Discover} />
           <Route path='/sequence' 
                 render={() => (

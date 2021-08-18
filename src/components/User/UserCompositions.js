@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../Discover.css";
 import UserSongList from "./UserSongList.js";
-import { Button, Card, Row, Col, Container } from "react-bootstrap";
-import Sequence from "../Sequence.js";
-import { NavLink, BrowserRouter as Router, Route } from 'react-router-dom';
-
+import { Button, Row, Col, } from "react-bootstrap";
+import { readCompositions } from "./../../fire.js";
 
 //npm install react-table
 //npm install react-bootstrap bootstrap
 //npm install --save reactstrap
 //npm i --save bootstrap jquery popper.js
 
+function getCompositions(uid) {
+    
+}
 
-export default function UserCompositions() {
 
+
+const UserCompositions = (uid) => {
+
+    console.log(uid);
+    readCompositions(uid.uid);
     
     return (
         <>
@@ -42,4 +47,4 @@ export default function UserCompositions() {
 }
 
 
-
+export default UserCompositions;
