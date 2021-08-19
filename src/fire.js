@@ -30,9 +30,12 @@ export function saveComposition(uid, bpm, highestOctave, notes) {
 
 export function readCompositions(uid) {
   var compListRef = db.ref("users/" + uid + "/compositions");
+
+  //let result = null;
   compListRef.get().then((snapshot) => {
     if( snapshot.exists()) {
       console.log(snapshot.val());
+      return snapshot.val();
     }
     else {
       console.log("No data available");
@@ -40,6 +43,7 @@ export function readCompositions(uid) {
   }).catch((error) => {
     console.log(error);
   })
+
 }
 
 export default fire;

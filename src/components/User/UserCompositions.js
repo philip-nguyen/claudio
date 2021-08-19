@@ -17,9 +17,17 @@ function getCompositions(uid) {
 
 const UserCompositions = (uid) => {
 
-    console.log(uid);
-    readCompositions(uid.uid);
-    
+    // console.log(uid);
+    let myComps = readCompositions(uid.uid);
+    const getComps = async () => {
+        const a = await myComps;
+        console.log(a);
+        myComps = a;
+    }
+
+    getComps();
+    console.log(myComps);
+
     return (
         <>
             <hr />
@@ -39,7 +47,7 @@ const UserCompositions = (uid) => {
                 </Col>
             </Row>
             <Row id="userSongListRow">
-                <UserSongList id="songList">
+                <UserSongList id="songList" compositions={myComps}>
                 </UserSongList>
             </Row>
         </>

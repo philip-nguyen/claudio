@@ -9,15 +9,17 @@ export const songs = [
     { id: 4, name: 'Slow Track', likes: '356 Likes', timeDate: '12:30am . 12/17/2020' },
 ];
 
-export default function SongList(props) {
+export default function SongList({compositions}) {
+    console.log(compositions);
+    
     return (
 
         <div >
             <ul>
-                {songs.map((value, index) => {
-                    return <UserSongCard key={songs[index].id} songName={songs[index].name} likes=
+                { compositions ? compositions.map((value, index) => {
+                    return <UserSongCard key={songs[index].id} songName={value.bpm} likes=
                         {songs[index].likes} timeDate={songs[index].timeDate}></UserSongCard>
-                })}
+                }) : ""}
             </ul>
 
         </div>
