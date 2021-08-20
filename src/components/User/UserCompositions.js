@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Discover.css";
 import UserSongList from "./UserSongList.js";
-import { Button, Card, Row, Col, Container } from "react-bootstrap";
-import Sequence from "../Sequence.js";
-import { NavLink, BrowserRouter as Router, Route } from 'react-router-dom';
-
+import { Button, Row, Col, } from "react-bootstrap";
+import { readCompositions } from "./../../fire.js";
 
 //npm install react-table
 //npm install react-bootstrap bootstrap
@@ -12,9 +10,33 @@ import { NavLink, BrowserRouter as Router, Route } from 'react-router-dom';
 //npm i --save bootstrap jquery popper.js
 
 
-export default function UserCompositions() {
+const UserCompositions = (uid) => {
+    // function components
+    const [comps, setComps] = useState([]);
 
-    
+    const onDataRead = (items) => {
+        console.log("Calling on dataread");
+        
+        let c = [];
+
+        //JSON object mapping
+        Object.keys(items).forEach(function(key) {
+            console.log(key, items[key]);
+            let item = items[key];
+            c.push({
+                bpm: item.bpm,
+                highestOctave: item.highestOctave,
+                notes: item.notes
+            })
+        });
+        
+        setComps(c);
+    }
+
+    useEffect(() => {
+        readCompositions(uid.uid, onDataRead);
+    }, []);
+
     return (
         <>
             <hr />
@@ -34,7 +56,7 @@ export default function UserCompositions() {
                 </Col>
             </Row>
             <Row id="userSongListRow">
-                <UserSongList id="songList">
+                <UserSongList id="songList" compositions={comps}>
                 </UserSongList>
             </Row>
         </>
@@ -42,4 +64,4 @@ export default function UserCompositions() {
 }
 
 
-
+export default UserCompositions;
