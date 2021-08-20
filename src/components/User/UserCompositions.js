@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../Discover.css";
 import UserSongList from "./UserSongList.js";
 import { Button, Row, Col, } from "react-bootstrap";
@@ -9,24 +9,33 @@ import { readCompositions } from "./../../fire.js";
 //npm install --save reactstrap
 //npm i --save bootstrap jquery popper.js
 
-function getCompositions(uid) {
-    
-}
-
-
 
 const UserCompositions = (uid) => {
+    // function components
+    const [comps, setComps] = useState([]);
 
-    // console.log(uid);
-    let myComps = readCompositions(uid.uid);
-    const getComps = async () => {
-        const a = await myComps;
-        console.log(a);
-        myComps = a;
+    const onDataRead = (items) => {
+        console.log("Calling on dataread");
+        
+        let c = [];
+
+        //JSON object mapping
+        Object.keys(items).forEach(function(key) {
+            console.log(key, items[key]);
+            let item = items[key];
+            c.push({
+                bpm: item.bpm,
+                highestOctave: item.highestOctave,
+                notes: item.notes
+            })
+        });
+        
+        setComps(c);
     }
 
-    getComps();
-    console.log(myComps);
+    useEffect(() => {
+        readCompositions(uid.uid, onDataRead);
+    }, []);
 
     return (
         <>
@@ -47,7 +56,7 @@ const UserCompositions = (uid) => {
                 </Col>
             </Row>
             <Row id="userSongListRow">
-                <UserSongList id="songList" compositions={myComps}>
+                <UserSongList id="songList" compositions={comps}>
                 </UserSongList>
             </Row>
         </>

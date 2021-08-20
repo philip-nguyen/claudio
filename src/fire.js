@@ -28,14 +28,14 @@ export function saveComposition(uid, bpm, highestOctave, notes) {
   // dbRef.child(currentUser.uid).get()
 }
 
-export function readCompositions(uid) {
-  var compListRef = db.ref("users/" + uid + "/compositions");
-
-  //let result = null;
-  compListRef.get().then((snapshot) => {
+export const readCompositions = function(uid, onDataRead) {
+  var compListRef = db.ref("/users"); 
+  
+  compListRef.child(uid).child('compositions').get()
+  .then((snapshot) => {
     if( snapshot.exists()) {
       console.log(snapshot.val());
-      return snapshot.val();
+      onDataRead(snapshot.val());
     }
     else {
       console.log("No data available");
