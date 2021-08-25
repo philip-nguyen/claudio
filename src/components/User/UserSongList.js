@@ -17,7 +17,7 @@ export default function SongList({compositions}) {
         <div >
             <ul>
                 { compositions ? compositions.map((value, index) => {
-                    return <UserSongCard key={songs[index].id} songName={value.bpm} likes=
+                    return <UserSongCard key={songs[index].id} songName={songs[index].name} likes=
                         {songs[index].likes} timeDate={songs[index].timeDate}></UserSongCard>
                 }) : ""}
             </ul>

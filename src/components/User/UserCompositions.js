@@ -24,6 +24,7 @@ const UserCompositions = (uid) => {
             console.log(key, items[key]);
             let item = items[key];
             c.push({
+                name: item.name,
                 bpm: item.bpm,
                 highestOctave: item.highestOctave,
                 notes: item.notes

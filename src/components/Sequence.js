@@ -41,6 +41,9 @@ const Sequence = (uid) => {
     // Boolean to handle if music is played or not
     const [isPlaying, setIsPlaying] = useState(false);
 
+    // Track name
+    const [name, setName] = useState("");
+
     // BPM 
     const [bpm, setBPM] = useState(120);
 
@@ -103,7 +106,7 @@ const Sequence = (uid) => {
             })
         );
         // call to firebase function, saveComposition
-        saveComposition(uid.uid, bpm, CHOSEN_OCTAVE, activeNotes);
+        saveComposition(uid.uid, name, bpm, CHOSEN_OCTAVE, activeNotes);
     }
 
     const PlaySequence = async () => {
@@ -161,99 +164,109 @@ const Sequence = (uid) => {
 
 
     return (
-        <div id="sequencer">
-            <div className="sequencer">
-                <div id="controls" className="buttons">
-                    <button id="stop" className="navigation-buttons fa fa-stop" >
-                        <BsFillPauseFill size={18}/>
-                    </button>
-                    <button id="play" className="navigation-buttons fa fa-play"
-                        onClick={() => PlaySequence()}>
-                        <BsPlayFill size={18}/>
-                    </button>
-                    <button id="record" className="navigation-buttons fa fa-microphone"
-                        onClick={() => saveNotes()}>
-                        <BiSave size={18}/>
-                    </button>
-                    <button id="delete" className="navigation-buttons fa fa-trash" 
-                        onClick={() => clearSelectedPads()}>
-                        <BsFillTrashFill size={18}/>
-                    </button>
-
-            
-                    <div className="select-wrapper">
-                        <span>Instrument</span>
-                        <select className="wave navigation-buttons" id="instrument-control" data-label="wave">
-                            <option className="optionColor" value="sine">Synth</option>
-                            <option value="sawtooth">Sawtooth</option>
-                            <option value="square">Square</option>
-                            <option value="triangle">Triangle</option>
-                        </select>
-                    </div>
-
-                    <div className="select-wrapper">
-                        <span>Octave</span>
-                        <select id="octave-control" data-label="octave" className="octave navigation-buttons">
-                            <option> 1</option>
-                            <option>2</option>
-                            <option>3</option>
-                        </select>
-                    </div>
-
-                    <div className="select-wrapper">
-                        <span>Style</span>
-                        <select id="style-control" data-label="octave" className="BPM navigation-buttons">
-                            <option>Legato</option>
-                            <option>Staccato</option>
-                        </select>
-                    </div>
-
-                    <div className="select-wrapper slide-container">
-
-                        <br/>
-                        <div className="input-container">
-                            <span id="bpm-display"></span>
-                            <input type="range" min="60" max="200" value={bpm} className="slider" id="bpm-slider" 
-                                onChange={handleBpmChange}/>
-                        </div>
-                    </div>
-
-                    
-                    <ul className="notes">
-                        
-                        <li>B#4</li>
-                        <li>B4</li>
-                        <li>A#4</li>
-                        <li>A4</li>
-                        <li>G#4</li>
-                        <li>G4</li>
-                        <li>F#4</li>
-                        <li>F4</li>
-                        <li>E4</li>
-                        <li>D#4</li>
-                        <li>D4</li>
-                        <li>C#4</li>
-                        <li>C4</li>
-                    </ul>
-                    
-                    
+        <div>
+            <div className="input-group mb-3 transparent-input">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" id="basic-addon1">Name</span>
                 </div>
-                <div className="flex">
-                    {grid.map((step, stepIndex) => (
-                    <div key={stepIndex + "step"} 
-                        id={`step-${stepIndex+1}`} className="pads-column"
-                        >
-                        {step.map(({note, isActive}, noteIndex) => (
-                        <Pad note={note} isActive={isActive}
-                            onClick={() => togglePadPressedClass(stepIndex, noteIndex)}
-                            key={note + stepIndex}
-                        />
+                <input type="text" id="name" placeholder="Track X" onChange={(e) => setName(e.target.value)}/>
+            </div>
+
+            <div id="sequencer">
+                <div className="sequencer">
+                    <div id="controls" className="buttons">
+                        <button id="stop" className="navigation-buttons fa fa-stop" >
+                            <BsFillPauseFill size={18}/>
+                        </button>
+                        <button id="play" className="navigation-buttons fa fa-play"
+                            onClick={() => PlaySequence()}>
+                            <BsPlayFill size={18}/>
+                        </button>
+                        <button id="record" className="navigation-buttons fa fa-microphone"
+                            onClick={() => saveNotes()}>
+                            <BiSave size={18}/>
+                        </button>
+                        <button id="delete" className="navigation-buttons fa fa-trash" 
+                            onClick={() => clearSelectedPads()}>
+                            <BsFillTrashFill size={18}/>
+                        </button>
+
+                
+                        <div className="select-wrapper">
+                            <span>Instrument</span>
+                            <select className="wave navigation-buttons" id="instrument-control" data-label="wave">
+                                <option className="optionColor" value="sine">Synth</option>
+                                <option value="sawtooth">Sawtooth</option>
+                                <option value="square">Square</option>
+                                <option value="triangle">Triangle</option>
+                            </select>
+                        </div>
+
+                        <div className="select-wrapper">
+                            <span>Octave</span>
+                            <select id="octave-control" data-label="octave" className="octave navigation-buttons">
+                                <option> 1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+
+                        <div className="select-wrapper">
+                            <span>Style</span>
+                            <select id="style-control" data-label="octave" className="BPM navigation-buttons">
+                                <option>Legato</option>
+                                <option>Staccato</option>
+                            </select>
+                        </div>
+
+                        <div className="select-wrapper slide-container">
+
+                            <br/>
+                            <div className="input-container">
+                                <span id="bpm-display"></span>
+                                <input type="range" min="60" max="200" value={bpm} className="slider" id="bpm-slider" 
+                                    onChange={handleBpmChange}/>
+                            </div>
+                        </div>
+
+                        
+                        <ul className="notes">
+                            
+                            <li>B#4</li>
+                            <li>B4</li>
+                            <li>A#4</li>
+                            <li>A4</li>
+                            <li>G#4</li>
+                            <li>G4</li>
+                            <li>F#4</li>
+                            <li>F4</li>
+                            <li>E4</li>
+                            <li>D#4</li>
+                            <li>D4</li>
+                            <li>C#4</li>
+                            <li>C4</li>
+                        </ul>
+                        
+                        
+                    </div>
+                    <div className="flex">
+                        {grid.map((step, stepIndex) => (
+                        <div key={stepIndex + "step"} 
+                            id={`step-${stepIndex+1}`} className="pads-column"
+                            >
+                            {step.map(({note, isActive}, noteIndex) => (
+                            <Pad note={note} isActive={isActive}
+                                onClick={() => togglePadPressedClass(stepIndex, noteIndex)}
+                                key={note + stepIndex}
+                            />
+                            ))}
+                        </div>
                         ))}
                     </div>
-                    ))}
                 </div>
             </div>
         </div>
+        
         
     )
 }
