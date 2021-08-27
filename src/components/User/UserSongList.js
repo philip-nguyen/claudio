@@ -9,7 +9,7 @@ export const songs = [
     { id: 4, name: 'Slow Track', likes: '356 Likes', timeDate: '12:30am . 12/17/2020' },
 ];
 
-export default function SongList({compositions}) {
+export default function SongList({compositions, uid}) {
     console.log(compositions);
     
     return (
@@ -17,8 +17,13 @@ export default function SongList({compositions}) {
         <div >
             <ul>
                 { compositions ? compositions.map((value, index) => {
-                    return <UserSongCard key={songs[index].id} songName={value.name} likes=
-                        {songs[index].likes} timeDate={songs[index].timeDate}></UserSongCard>
+                    return <UserSongCard 
+                            uid={uid} 
+                            compId={value.id}
+                            songName={value.name} 
+                            likes={songs[index].likes}
+                            timeDate={songs[index].timeDate}>
+                            </UserSongCard>
                 }) : ""}
             </ul>
 

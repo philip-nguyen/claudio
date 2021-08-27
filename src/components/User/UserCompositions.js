@@ -24,6 +24,7 @@ const UserCompositions = (uid) => {
             console.log(key, items[key]);
             let item = items[key];
             c.push({
+                id: key,
                 name: item.name,
                 bpm: item.bpm,
                 highestOctave: item.highestOctave,
@@ -57,7 +58,7 @@ const UserCompositions = (uid) => {
                 </Col>
             </Row>
             <Row id="userSongListRow">
-                <UserSongList id="songList" compositions={comps}>
+                <UserSongList id="songList" compositions={comps} uid={uid.uid}>
                 </UserSongList>
             </Row>
         </>

@@ -32,7 +32,7 @@ function mapMeasure() {
 
 const CHOSEN_OCTAVE = "4";
 
-const Sequence = (uid) => {
+const Sequence = (uid, compId) => {
     
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
