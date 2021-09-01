@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../style.css';
 import Pad from './Pad';
 import * as Tone from 'tone';
 import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsColumnsGap, } from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
-import { saveComposition } from './../fire.js';
+import { saveComposition, readComposition } from './../fire.js';
 
 function mapMeasure() {
     const measure = [];
@@ -53,6 +53,12 @@ const Sequence = (uid, compId) => {
     //Notice the new PolySynth in use here, to support multiple notes at once
     const synth = new Tone.PolySynth().toDestination();
 
+    // IF compId is NOT undefined
+    useEffect(() => {
+        if(compId !== undefined)
+            loadNotes(uid, compId);
+    }, [])
+
     function togglePadPressedClass(clickedColumn, clickedNote){
         // Shallow copy of our grid with updated isActive
         let updatedGrid = grid.map((column, columnIndex) =>
@@ -76,6 +82,21 @@ const Sequence = (uid, compId) => {
         ? pad.classList.remove("pad-pressed")
         : pad.classList.add("pad-pressed");
         */
+    }
+
+    const onCompositionRead = (comp) => {
+        let notes = comp.notes;
+        // map over those notes
+        // and call togglePadPressed
+        notes.map((currNote) => {
+            togglePadPressedClass(currNote.col, currNote.row);
+        });
+    } 
+
+    function loadNotes(uid, compId) {
+        // use compId + uid to get specific composition's notes
+        compId = "-MhHONE3y3oJ7IqkDHmJ"; // JUST for testing
+        readComposition(uid.uid, compId, onCompositionRead);
     }
     
     const clearSelectedPads = () => {

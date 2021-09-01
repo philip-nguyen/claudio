@@ -47,4 +47,20 @@ export const readCompositions = function(uid, onDataRead) {
 
 }
 
+export const readComposition = function(uid, compId, onDataRead) {
+  console.log(uid, compId);
+  db.ref("/users").child(uid).child("compositions").child(compId).get()
+  .then((snapshot) => {
+    if(snapshot.exists()) {
+      console.log(snapshot.val());
+      onDataRead(snapshot.val());
+    }
+    else {
+      console.log("No Data Available");
+    }
+  }).catch((error) => {
+    console.log(error);
+  })
+}
+
 export default fire;
