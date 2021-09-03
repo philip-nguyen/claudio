@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { Button, Card, Row, Col, Container } from "react-bootstrap";
 import { BsPlayFill } from "react-icons/bs";
 import PlayPause from "../PlayPause";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import Sequence from './../Sequence';
 
 
@@ -30,8 +30,18 @@ export default function UserSongCard(props) {
                     <Row sm={2}>
                         <Col sm={4}>
                             <Card.Title id="songTitle" style={{ fontSize: 25, color: "#3eb360" }}>
-                                
-                                {props.songName}
+                                <Router>
+                                    <Link to="/sequence">{props.songName}</Link>
+                                    <Switch>
+                                        <Route path="/sequence"
+                                            render={() => (
+                                                <Sequence 
+                                                    uid={props.uid} 
+                                                    compId={props.compId} 
+                                                />
+                                            )} />
+                                    </Switch>
+                                </Router>
                             </Card.Title>
                             <Card.Subtitle id="date" className="mb-2 text-muted">
                                 {props.timeDate}

@@ -48,7 +48,7 @@ export const readCompositions = function(uid, onDataRead) {
 }
 
 export const readComposition = function(uid, compId, onDataRead) {
-  console.log(uid, compId);
+  // console.log(uid, compId);
   db.ref("/users").child(uid).child("compositions").child(compId).get()
   .then((snapshot) => {
     if(snapshot.exists()) {

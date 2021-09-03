@@ -32,7 +32,7 @@ function mapMeasure() {
 
 const CHOSEN_OCTAVE = "4";
 
-const Sequence = (uid, compId) => {
+const Sequence = ({uid, compId}) => {
     
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
@@ -55,8 +55,9 @@ const Sequence = (uid, compId) => {
 
     // IF compId is NOT undefined
     useEffect(() => {
-        if(compId !== undefined)
+        if(compId !== undefined) {
             loadNotes(uid, compId);
+        }
     }, [])
 
     function togglePadPressedClass(clickedColumn, clickedNote){
@@ -95,8 +96,7 @@ const Sequence = (uid, compId) => {
 
     function loadNotes(uid, compId) {
         // use compId + uid to get specific composition's notes
-        compId = "-MhHONE3y3oJ7IqkDHmJ"; // JUST for testing
-        readComposition(uid.uid, compId, onCompositionRead);
+        readComposition(uid, compId, onCompositionRead);
     }
     
     const clearSelectedPads = () => {
@@ -127,7 +127,7 @@ const Sequence = (uid, compId) => {
             })
         );
         // call to firebase function, saveComposition
-        saveComposition(uid.uid, name, bpm, CHOSEN_OCTAVE, activeNotes);
+        saveComposition(uid, name, bpm, CHOSEN_OCTAVE, activeNotes);
     }
 
     const PlaySequence = async () => {

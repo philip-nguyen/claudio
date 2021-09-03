@@ -10,7 +10,6 @@ export const songs = [
 ];
 
 export default function SongList({compositions, uid}) {
-    console.log(compositions);
     
     return (
 
