@@ -30,18 +30,7 @@ export default function UserSongCard(props) {
                     <Row sm={2}>
                         <Col sm={4}>
                             <Card.Title id="songTitle" style={{ fontSize: 25, color: "#3eb360" }}>
-                                <Router>
-                                    <Link to="/sequence">{props.songName}</Link>
-                                    <Switch>
-                                        <Route path="/sequence"
-                                            render={() => (
-                                                <Sequence 
-                                                    uid={props.uid} 
-                                                    compId={props.compId} 
-                                                />
-                                            )} />
-                                    </Switch>
-                                </Router>
+                                <Link to="/sequence" onClick={() => props.handleCompClick(props.compId)}>{props.songName}</Link>
                             </Card.Title>
                             <Card.Subtitle id="date" className="mb-2 text-muted">
                                 {props.timeDate}

@@ -55,7 +55,7 @@ const Sequence = ({uid, compId}) => {
 
     // IF compId is NOT undefined
     useEffect(() => {
-        if(compId !== undefined) {
+        if(compId !== undefined && compId !== '') {
             loadNotes(uid, compId);
         }
     }, [])
