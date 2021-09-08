@@ -17,6 +17,7 @@ const App = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
+  const [compId, setCompId] = useState('');
 
   const clearInputs = () => {
     setEmail('');
@@ -96,20 +97,24 @@ const App = () => {
       authListener();
     }, []);
 
+    const handleCompClick = (id) => {
+      setCompId(id);
+    }
+
   return(
     <div className ="App">
       {user ? (
         <Router>
         <Navbar handleLogout = {handleLogout} />
         <Switch>
-          <Route path='/compositions' 
+          <Route path='/compositions'
                 render={() => (
-                  <UserCompositions uid={user.uid} />
+                  <UserCompositions uid={user.uid} handleCompClick={handleCompClick}/>
                 )} />
           <Route path='/discover' component={Discover} />
           <Route path='/sequence' 
                 render={() => (
-                  <Sequence uid={user.uid}/>
+                  <Sequence uid={user.uid} compId={compId}/>
                 )}
                 />
         </Switch>

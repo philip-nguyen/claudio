@@ -10,7 +10,7 @@ import { readCompositions } from "./../../fire.js";
 //npm i --save bootstrap jquery popper.js
 
 
-const UserCompositions = (uid) => {
+const UserCompositions = ({uid, handleCompClick}) => {
     // function components
     const [comps, setComps] = useState([]);
 
@@ -24,6 +24,8 @@ const UserCompositions = (uid) => {
             console.log(key, items[key]);
             let item = items[key];
             c.push({
+                id: key,
+                name: item.name,
                 bpm: item.bpm,
                 highestOctave: item.highestOctave,
                 notes: item.notes
@@ -34,7 +36,7 @@ const UserCompositions = (uid) => {
     }
 
     useEffect(() => {
-        readCompositions(uid.uid, onDataRead);
+        readCompositions(uid, onDataRead);
     }, []);
 
     return (
@@ -56,7 +58,7 @@ const UserCompositions = (uid) => {
                 </Col>
             </Row>
             <Row id="userSongListRow">
-                <UserSongList id="songList" compositions={comps}>
+                <UserSongList id="songList" compositions={comps} uid={uid} handleCompClick={handleCompClick}>
                 </UserSongList>
             </Row>
         </>
