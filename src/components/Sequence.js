@@ -51,7 +51,8 @@ const Sequence = ({uid, compId}) => {
     const [currentColumn, setCurrentColumn] = useState(null);
 
     //Notice the new PolySynth in use here, to support multiple notes at once
-    const synth = new Tone.PolySynth().toDestination();
+    const[synth, setSynth] = useState(new Tone.PolySynth().toDestination());
+    //const synth = new Tone.PolySynth().toDestination();
 
     // IF compId is NOT undefined
     useEffect(() => {
@@ -273,7 +274,9 @@ const Sequence = ({uid, compId}) => {
                     <div className="flex">
                         {grid.map((step, stepIndex) => (
                         <div key={stepIndex + "step"} 
-                            id={`step-${stepIndex+1}`} className="pads-column"
+                            id={`step-${stepIndex+1}`} 
+                            className={stepIndex === currentColumn && isPlaying ? 
+                                "pads-column step-play" : "pads-column"}
                             >
                             {step.map(({note, isActive}, noteIndex) => (
                             <Pad note={note} isActive={isActive}
