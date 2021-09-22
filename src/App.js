@@ -17,6 +17,7 @@ const App = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   const clearInputs = () => {
     setEmail('');
@@ -35,7 +36,11 @@ const App = () => {
       .signInWithEmailAndPassword(email,password).then(function(){
         if(fire.auth().currentUser.emailVerified == false)
         {
-          setEmailError("Email not verified")
+          setEmailError("Email not verified");
+        }
+        else
+        {
+          setIsVerified(true);
         }
       })
       .catch(err =>{
@@ -47,8 +52,6 @@ const App = () => {
             break;
           case "auth/wrong-password":
             setPasswordError(err.message);
-          default:
-              setEmailError(err.message);
           }
 
         });
@@ -67,13 +70,12 @@ const App = () => {
         .catch(err =>{
           switch(err.code){
             case "auth/email-already-in-use":
+            case "auth/operation-not-allowed":
             case "auth/invalid-email":
               setEmailError(err.message);
               break;
             case "auth/weak-password":
               setPasswordError(err.message);
-            default:
-                setEmailError(err.message);
             }
   
           });
@@ -85,6 +87,8 @@ const App = () => {
   
       };
     const handleLogout = () => {
+      clearInputs();
+      clearErrors();
       fire.auth().signOut();
     };
 
@@ -110,7 +114,7 @@ const App = () => {
 
   return(
     <div className ="App">
-      {user && fire.auth().currentUser.emailVerified ? (
+      {user && isVerified ? (
         <Router>
         <NavigationMenu handleLogout = {handleLogout} />
         <Switch>
