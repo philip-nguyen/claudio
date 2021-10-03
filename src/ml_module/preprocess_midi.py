@@ -13,6 +13,10 @@ from keras.utils import np_utils
 
 class Preprocessor:
 
+    """ This module contains functions to preprocess midi files and prepare
+        data for a machine learning model.
+    """
+
     def __init__(self):
         pass
 
@@ -99,6 +103,10 @@ class Preprocessor:
             Parameters:
                 notes [List]: List of notes and chords to save on disk 
                 filename [String]: A String object that specifies the filename for saving
+
+            Returns:
+                True - if file is successfully saved into disk. 
+                False - if file is not saved into disk or empty notes are provided
         """
 
         if notes:
@@ -114,12 +122,20 @@ class Preprocessor:
             with open(filename, 'wb') as mfile:
                 pickle.dump(notes, mfile)
 
+            return True
+
+        return False
+
     def midi_to_disk(self, midi_file, filename=""):
         """ A function to write an input midi file to a disk 
 
             Parameters:
                 midi_file [.mid file]: A .mid file to store into a disk
                 filename [String]: A string that specifies a filename for saving
+
+            Returns:
+                True - if file saved successfully
+                False - if file is not saved or empty midi_file is provided
 
         """
 
@@ -133,7 +149,11 @@ class Preprocessor:
             # Adding path to filename
             filename = f'artefacts/midi/{filename}'
             # writing midi file to disk
-            midi_stream.write('midi', fp=f'artefactsfilename)
+            midi_stream.write('midi', fp=filename)
+
+            return True
+
+        return False
 
     def sequence(self, notes, distinct_notes, sequence_length):
         """ A function to create sequence of input and output lists
@@ -155,7 +175,6 @@ class Preprocessor:
                 output_sequence [List]: List of output notes for each input
                                         sequence - to train a Machine Learning 
                                         model.
-
         """
         # Extracting distinct pitch names
         pitch_names = sorted(set(item for item in notes))
