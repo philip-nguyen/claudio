@@ -4,6 +4,10 @@ import UserSongList from "./UserSongList.js";
 import { Button, Row, Col, } from "react-bootstrap";
 import { readCompositions } from "./../../fire.js";
 
+//import SongList from "../SongList.js";
+import { SocialIcon } from "react-social-icons";
+
+
 //npm install react-table
 //npm install react-bootstrap bootstrap
 //npm install --save reactstrap
@@ -46,6 +50,12 @@ const UserCompositions = ({uid, handleCompClick}) => {
             {/* NAVBAR? */}
 
             <h1>Hello User</h1>
+            <div id="socialsGroup">
+                <SocialIcon network="facebook" url = "https://www.facebook.com" class="facebookIcon" />
+                <SocialIcon network="twitter" url = "https://twitter.com" class="twitterIcon" />
+                <SocialIcon network="instagram" url = "https://instagram.com" class="instagramIcon" />
+                <SocialIcon network="spotify" url = "https://spotify.com" class="spotifyIcon" />
+            </div>
             <Row>
                 <Col>
                     <p className="latest">Compositions</p>
@@ -58,7 +68,7 @@ const UserCompositions = ({uid, handleCompClick}) => {
                 </Col>
             </Row>
             <Row id="userSongListRow">
-                <UserSongList id="songList" compositions={comps} uid={uid} handleCompClick={handleCompClick}>
+            <UserSongList id="songList" compositions={comps} uid={uid} handleCompClick={handleCompClick}>
                 </UserSongList>
             </Row>
         </>
