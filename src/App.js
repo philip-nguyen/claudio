@@ -5,7 +5,6 @@ import Login from "./Login";
 import Sequence from './components/Sequence';
 import Discover from './components/Discover';
 import UserCompositions from './components/User/UserCompositions'
-import NavigationMenu from './components/NavigationMenu';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -112,15 +111,26 @@ const App = () => {
       authListener();
     }, []);
 
+    const handleCompClick = (id) => {
+      setCompId(id);
+    }
+
   return(
     <div className ="App">
       {user && isVerified ? (
         <Router>
-        <NavigationMenu handleLogout = {handleLogout} />
+        <Navbar handleLogout = {handleLogout} />
         <Switch>
-          <Route path='/compositions' component={UserCompositions} />
+          <Route path='/compositions'
+                render={() => (
+                  <UserCompositions uid={user.uid} handleCompClick={handleCompClick}/>
+                )} />
           <Route path='/discover' component={Discover} />
-          <Route path='/sequence' component={Sequence}/>
+          <Route path='/sequence' 
+                render={() => (
+                  <Sequence uid={user.uid} compId={compId}/>
+                )}
+                />
         </Switch>
         </Router>
          ) : (

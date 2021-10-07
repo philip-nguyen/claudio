@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import { Button, Card, Row, Col, Container } from "react-bootstrap";
 import { BsPlayFill } from "react-icons/bs";
 import PlayPause from "../PlayPause";
+import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
+import Sequence from './../Sequence';
 
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -28,7 +30,7 @@ export default function UserSongCard(props) {
                     <Row sm={2}>
                         <Col sm={4}>
                             <Card.Title id="songTitle" style={{ fontSize: 25, color: "#3eb360" }}>
-                                {props.songName}
+                                <Link to="/sequence" onClick={() => props.handleCompClick(props.compId)}>{props.songName}</Link>
                             </Card.Title>
                             <Card.Subtitle id="date" className="mb-2 text-muted">
                                 {props.timeDate}
@@ -67,3 +69,15 @@ UserSongCard.propTypes = {
     likes: PropTypes.string.isRequired,
     timeDate: PropTypes.string.isRequired
 }
+
+/**
+ * <Router>
+        <Switch>
+            <Route path='/seqeunce' 
+                render={() => (
+                    <Sequence uid={props.uid} compId={props.compId}/>
+                )}
+            />
+        </Switch>
+    </Router>
+ */

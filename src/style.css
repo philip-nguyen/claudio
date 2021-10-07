@@ -9,13 +9,19 @@ body {
 
 .sequencer {
   position: absolute;
-  top: 58%;
+  top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -55%);
   transform: translate(-50%, -55%);
   padding: 1em;
   background: #28282c;
   border-radius: 4px;
+}
+
+.transparent-input {
+  background-color: rgba(0, 0, 0, 0) !important;
+  border:none !important;
+  margin-left: 4rem;
 }
 
 .notes {
