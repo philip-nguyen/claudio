@@ -4,6 +4,7 @@ import "./App.css";
 import Login from "./Login";
 import Sequence from './components/Sequence';
 import Discover from './components/Discover';
+import Navbar from './components/Navbar';
 import UserCompositions from './components/User/UserCompositions'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -17,6 +18,7 @@ const App = () => {
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const [compId, setCompId] = useState('');
 
   const clearInputs = () => {
     setEmail('');
