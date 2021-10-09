@@ -13,14 +13,12 @@ const Login = (props) => {
         hasAccount,
         setHasAccount,
         emailError,
-        passwordError
+        passwordError,
+        isReset,
+        setIsReset,
+        setReset
     } = props;
     return(
-        <div className="loginPageContainer">
-        <div className="titleTextContainer">
-                <h2>ClAud-IO</h2>
-                <h3>Create. Share.</h3>
-        </div>
         <section className="login">
             <div className = "loginContainer">
                 <label>Email</label>
@@ -72,11 +70,14 @@ const Login = (props) => {
                         </p>
                         </>
                     )}
+                    <p>
+                        Forgot Password?
+                        <span onClick = {() => setReset(true)}>Reset Password</span>
+                    </p>
                 </div>
             </div>
 
         </section>
-        </div>
     )
 }
 

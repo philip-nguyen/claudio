@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from "react";
 import fire from "../fire.js"
-import { Link } from 'react-router-dom';
 
-const PasswordReset = () => {
+const PasswordReset = (props) => {
+  const{
+    isReset,
+    setIsReset,
+    setReset} = props;
+    
     const [user, setUser] = useState('');
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -57,8 +61,11 @@ const PasswordReset = () => {
                 <>
                 <button onClick={handlePasswordReset}>Reset Password</button>
                 </>
+                <p>
+                  Go back?
+                  <span onClick = {() => setReset(false)}>Return to Login</span>
+                </p>
                 </div>
-                <Link to="/"><p>Return to Login</p></Link>
             </div>
 
         </section>

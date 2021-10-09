@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import fire from "./fire"
 import "./App.css";
-import Login from "./Login";
+import Signin from "./Signin";
 import Sequence from './components/Sequence';
 import Discover from './components/Discover';
 import Navbar from './components/Navbar';
@@ -136,7 +136,7 @@ const App = () => {
         </Switch>
         </Router>
          ) : (
-        <Login
+        <Signin
         email = {email}
         setEmail = {setEmail}
         password = {password}
