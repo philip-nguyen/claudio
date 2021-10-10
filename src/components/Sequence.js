@@ -5,6 +5,8 @@ import * as Tone from 'tone';
 import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsColumnsGap, } from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
 import { saveComposition, readComposition } from './../fire.js';
+import { SocialIcon } from "react-social-icons";
+
 
 function mapMeasure() {
     const measure = [];
@@ -189,6 +191,7 @@ const Sequence = ({uid, compId}) => {
             <div className="input-group mb-3 transparent-input">
                 <div className="input-group-prepend">
                     <span className="input-group-text" id="basic-addon1">Name</span>
+                    
                 </div>
                 <input type="text" id="name" placeholder="Track X" onChange={(e) => setName(e.target.value)}/>
             </div>
@@ -285,6 +288,13 @@ const Sequence = ({uid, compId}) => {
                         ))}
                     </div>
                 </div>
+            </div>
+
+            <div id="socialsGroup">
+                <SocialIcon network="facebook" url = "https://www.facebook.com" class="facebookIcon" />
+                <SocialIcon network="twitter" url = "https://twitter.com" class="twitterIcon" />
+                <SocialIcon network="instagram" url = "https://instagram.com" class="instagramIcon" />
+                <SocialIcon network="spotify" url = "https://spotify.com" class="spotifyIcon" />
             </div>
         </div>
         
