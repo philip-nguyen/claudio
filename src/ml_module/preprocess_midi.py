@@ -208,11 +208,3 @@ class Preprocessor:
         output_sequence = np_utils.to_categorical(output_sequence)
 
         return (input_sequence, output_sequence)
-
-
-if __name__ == '__main__':
-
-    processor = Preprocessor()
-    notes = processor.midi_to_notes("./input_midi_files/ultros.mid")
-    midi = processor.notes_to_midi(notes)
-    print(midi)
