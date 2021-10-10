@@ -4,27 +4,27 @@
 import glob
 import pickle
 import numpy as np
-from music21 import converter, instrument, note, chord
+from keras.utils import np_utils
 from music21 import converter, instrument, note, chord, stream
 
+# Importing datetime
 from datetime import datetime
-from keras.utils import np_utils
 
 
 class Preprocessor:
 
-    """ This module contains functions to preprocess midi files and prepare
-        data for a machine learning model.
+    """ A class that contains functions to preprocess midi files and prepare
+        midi data for training machine learning model.
     """
 
     def __init__(self):
         pass
 
     def midi_to_notes(self, midi_file):
-        """This function read and parse music midi files.
+        """This function read and parse midi files.
 
         Parameters:
-            midi_file [.mid file]: This is a music midi file to be parsed.
+            midi_file [.mid/.midi file]: This is a musical midi file to be parsed.
 
         Returns:
             notes [List]: Returns a list of sequential notes extracted from 
@@ -40,7 +40,7 @@ class Preprocessor:
         try:  # Midi file includes instrument parts
             instruments = instrument.partitionByInstrument(midi)
             raw_notes = instruments.parts[0].recurse()
-        elif:  # midi file only has notes in a flat structure
+        except:  # midi file only has notes in a flat structure
             raw_notes = midi.flat.notes
 
         for rnote in raw_notes:
@@ -75,10 +75,10 @@ class Preprocessor:
                 chord_notes = element.split('.')
                 c_notes = list()
 
-                for note in chord_notes:
-                    note_obj = note.Note(int(note))
+                for thisNote in chord_notes:
+                    note_obj = note.Note(int(thisNote))
                     note_obj.storedInstrument = instrument.Piano()
-                    c_notes.append(note_ob)
+                    c_notes.append(note_obj)
                 chord_obj = chord.Chord(c_notes)
                 chord_obj.offset = offset
                 output_notes.append(chord_obj)
@@ -149,21 +149,18 @@ class Preprocessor:
             # Adding path to filename
             filename = f'artefacts/midi/{filename}'
             # writing midi file to disk
-            midi_stream.write('midi', fp=filename)
+            midi_file.write('midi', fp=filename)
 
             return True
 
         return False
 
-    def sequence(self, notes, distinct_notes, sequence_length):
+    def sequence(self, notes, sequence_length):
         """ A function to create sequence of input and output lists
             to train a Machine Learning model. 
 
             Parameters:
                 notes [List]: A list of notes to create sequences.
-
-                distinct_notes [int]: A number of disctinct notes 
-                                      imported for sequencing. 
 
                 sequence_length[int]: Number of notes in one training 
                                       sequence.
@@ -176,6 +173,9 @@ class Preprocessor:
                                         sequence - to train a Machine Learning 
                                         model.
         """
+        # distinct_notes [int]: A number of disctinct notes imported for sequencing.
+        distinct_notes = len(set(notes))
+
         # Extracting distinct pitch names
         pitch_names = sorted(set(item for item in notes))
 
@@ -208,3 +208,11 @@ class Preprocessor:
         output_sequence = np_utils.to_categorical(output_sequence)
 
         return (input_sequence, output_sequence)
+
+
+if __name__ == '__main__':
+
+    processor = Preprocessor()
+    notes = processor.midi_to_notes("./input_midi_files/ultros.mid")
+    midi = processor.notes_to_midi(notes)
+    print(midi)
