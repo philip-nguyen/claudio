@@ -57,7 +57,8 @@ const Sequence = ({uid, compId}) => {
     
 
     //Notice the new PolySynth in use here, to support multiple notes at once
-    const synth = new Tone.PolySynth().toDestination();
+    const[synth, setSynth] = useState(new Tone.PolySynth().toDestination());
+    //const synth = new Tone.PolySynth().toDestination();
 
     function mapMeasure() {
         // complete 13*(high-low) X 16 length (init)
@@ -325,7 +326,9 @@ const Sequence = ({uid, compId}) => {
                     <div className="flex">
                         {grid.map((step, stepIndex) => (
                         <div key={stepIndex + "step"} 
-                            id={`step-${stepIndex+1}`} className="pads-column"
+                            id={`step-${stepIndex+1}`} 
+                            className={stepIndex === currentColumn && isPlaying ? 
+                                "pads-column step-play" : "pads-column"}
                             >
                             
                             {step.map(({note, isActive}, noteIndex) => (
