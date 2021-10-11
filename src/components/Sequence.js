@@ -6,7 +6,7 @@ import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsColumnsGap, } from "rea
 import { BiSave } from "react-icons/bi";
 import { saveComposition, readComposition } from './../fire.js';
 
-function mapMeasure() {
+function mapMeasures() {
     const measure = [];
     for(let i = 0; i < 16; i++) {
       let notes = [
@@ -34,6 +34,10 @@ const CHOSEN_OCTAVE = "4";
 
 const Sequence = ({uid, compId}) => {
     
+    // range of octaves, [lowOctave, highOctave]
+    const [highOctave, setHighOctave] = useState(4);
+    const [lowOctave, setLowOctave] = useState(4);
+
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
     const[grid, setGrid] = useState(mapMeasure());
@@ -50,15 +54,58 @@ const Sequence = ({uid, compId}) => {
     // Used to visualize which column is making sound
     const [currentColumn, setCurrentColumn] = useState(null);
 
+    
+
     //Notice the new PolySynth in use here, to support multiple notes at once
     const synth = new Tone.PolySynth().toDestination();
+
+    function mapMeasure() {
+        // complete 13*(high-low) X 16 length (init)
+        const measure = [];
+        
+        // console.log("Low octave", lowOctave, "High Octave", highOctave);
+        
+        for(let i = 0; i < 16; i++) {
+            let col = [];
+            for(let oct = lowOctave; oct <= highOctave; oct++) {
+                let o = oct.toString();
+                //console.log("C" + o);
+                //let noteO = "C" + o;
+                let octave = [
+                    {note : "C"+o, isActive: false, velocity: 0.9},
+                    {note : "C#"+o,isActive: false,  velocity: 0.9},
+                    {note : "D"+o, isActive: false, velocity: 0.9},
+                    {note : "D#"+o, isActive: false, velocity: 0.9},
+                    {note : "E"+o, isActive: false, velocity: 0.9},
+                    {note : "F"+o, isActive: false, velocity: 0.9},
+                    {note : "F#"+o, isActive: false, velocity: 0.9},
+                    {note : "G"+o, isActive: false, velocity: 0.9},
+                    {note : "G#"+o, isActive: false, velocity: 0.9},
+                    {note : "A"+o, isActive: false, velocity: 0.9},
+                    {note : "A#"+o, isActive: false, velocity: 0.9},
+                    {note : "B"+o, isActive: false, velocity: 0.9},
+                    {note : "B#"+o, isActive: false, velocity: 0.9}
+                ];
+                // add the octave to the column/step
+                col.push.apply(col, octave);
+        
+            }
+            // add the step (16th note column) to the measure
+            measure.push(col);
+        }
+        //console.log(measure);
+        return measure;
+    }
 
     // IF compId is NOT undefined
     useEffect(() => {
         if(compId !== undefined && compId !== '') {
             loadNotes(uid, compId);
         }
-    }, [])
+        setGrid(mapMeasure());
+    }, [lowOctave, highOctave])
+
+    
 
     function togglePadPressedClass(clickedColumn, clickedNote){
         // Shallow copy of our grid with updated isActive
@@ -138,8 +185,9 @@ const Sequence = ({uid, compId}) => {
             step.map(
                 (shouldPlay) =>
                     // If isActive, push the given note + octave
+                    // (shouldPlay.isActive) console.log(shouldPlay.note);
                     shouldPlay.isActive &&
-                    stepNotes.push(shouldPlay.note + CHOSEN_OCTAVE)
+                    stepNotes.push(shouldPlay.note)
             );
             notes.push(stepNotes);
         });
@@ -211,6 +259,10 @@ const Sequence = ({uid, compId}) => {
                             onClick={() => clearSelectedPads()}>
                             <BsFillTrashFill size={18}/>
                         </button>
+                        <button id="addLowerOctave" className="navigation-buttons " 
+                            onClick={() => setLowOctave(lowOctave - 1)}>
+                            <BsFillTrashFill size={18}/>
+                        </button>
 
                 
                         <div className="select-wrapper">
@@ -275,10 +327,11 @@ const Sequence = ({uid, compId}) => {
                         <div key={stepIndex + "step"} 
                             id={`step-${stepIndex+1}`} className="pads-column"
                             >
+                            
                             {step.map(({note, isActive}, noteIndex) => (
                             <Pad note={note} isActive={isActive}
                                 onClick={() => togglePadPressedClass(stepIndex, noteIndex)}
-                                key={note + stepIndex}
+                                key={`${note} + ${stepIndex}`}
                             />
                             ))}
                         </div>

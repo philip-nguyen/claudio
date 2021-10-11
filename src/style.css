@@ -5,14 +5,18 @@ body {
 .flex {
   display: flex;
   flex-direction: row;
+  
+  overflow-y: auto;
 }
 
 .sequencer {
-  position: absolute;
+  /*position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -55%);
-  transform: translate(-50%, -55%);
+  transform: translate(-50%, -55%);*/
+  height: 70%;
+  width: 80%;
   padding: 1em;
   background: #28282c;
   border-radius: 4px;
