@@ -1,37 +1,41 @@
-""" This module ingest preprocessed midi files to train 
-    a Machine Learning model.         
+""" This module contains functions to create and train
+    an LSTM Machine Learning model.
     """
 # Importing keras modules
 import keras
-from keras.models import Sequential, load_model
+from keras.models import Sequential
 from keras.layers import Dense, Dropout, LSTM, Activation, BatchNormalization as BatchNorm
 from keras.utils import np_utils
 from keras.callbacks import ModelCheckpoint
 import tensorflow as tf
 
 # Importing datetime
-
+import datetime
 
 # Importing customer modules
 from preprocess_midi import Preprocessor
 
 
-class Training:
+class Trainer:
+
+    """ A function that contains functions
+        to create and train ML model.
+    """
 
     def __init__(self):
         pass
 
-    def create_model(self, input_sequences, output_sequence_length):
-        """ A function to create an LSTM algorithm using Keras  
+    def create_model(self, input_sequences, num_distinct_outputs):
+        """ A function to create an LSTM algorithm using Keras
 
             Parameters:
                 input_sequences [Numpy Array]:  A numpy array of input sequence data.
 
-                output_sequence_length [int]: The number of possible output elements. 
+                num_distinct_outputs [int]: The number of possible output elements.
 
             Returns:
-                model [LSTM Algorithm]: An LSTM algorithm for training on preprocessed 
-                                        input data. 
+                model [LSTM Algorithm]: An LSTM algorithm for training on preprocessed
+                                        input data.
         """
         model = Sequential()
         model.add(LSTM(
@@ -52,28 +56,34 @@ class Training:
         model.add(Activation('relu'))
         model.add(BatchNorm())
         model.add(Dropout(0.3))
-        model.add(Dense(output_sequence_length))
+        model.add(Dense(num_distinct_outputs))
         model.add(Activation('softmax'))
         model.add(Activation('softmax'))
         model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
         return model
 
-    def train(self, model, input_sequences, output_sequences):
-        """ A function to train LSTM algorithm to build a model. 
+    def train(self, model, input_sequences, output_sequences, save=True):
+        """ A function to train LSTM algorithm and save built model.
 
-        Parameters:
-            model ([LSTM Algorithm]): An imported LSTM algorithm for training. 
-            input_sequences ([Numpy Array]): A numpy array of input sequences for sequences.    
-            output_sequences ([Numpy Array]): A numpy array of output sequences 
+            Parameters:
+                model ([LSTM Algorithm]): An imported LSTM algorithm for training.
+
+                input_sequences ([Numpy Array]): A numpy array of input sequences for sequences.
+
+                output_sequences ([Numpy Array]): A numpy array of output sequences
+
+                save ([Boolean, Optoinal]): True to save the trained model, false otherwise. Defaults to True.
+
+            Returns:
+                model - Returns a trained LSTM model.
         """
-        checkpoint = ModelCheckpoint(
-            filepath,
-            monitor='loss',
-            verbose=0,
-            save_best_only=True,
-            mode='min'
-        )
+        filepath = 'artefacts/model/'
+        checkpoint = ModelCheckpoint(filepath=filepath,
+                                     monitor='val_loss',
+                                     verbose=1,
+                                     save_best_only=True,
+                                     mode='min')
 
         callbacks = [checkpoint]
 
@@ -81,30 +91,14 @@ class Training:
             monitor='loss', patience=True)
 
         model.fit(input_sequences, output_sequences, epoch=50,
-                  batch_size=128, callbacks=[callbacks])
+                  batch_size=128, callbacks=callbacks)
 
-        return model
-
-    def model_to_disk(self, model, model_name=""):
-        """ A function to save imported model to disk. 
-
-        Parameters:
-            model ([LSTM model]): A trained LSTM model to save to disk. 
-
-            model_name (str, optional): A model name for saving. Defaults to "".
-
-        Returns:
-            True - If the model is successfully saved. 
-
-            False - If model is not saved.
-        """
-        if not model_name:
+        if save:
 
             date = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
-            filename = f'model_{date}.h5'
+            filpath = f'artefacts/model/model_{date}.h5'
+            # Saving model along with associated loss and epoch
+            #filepath = f'artefacts/model/model.epoch{epoch:02d}-loss{val_loss:.2f}.h5'
+            model.save(filepath)
 
-            model.save(filename)
-
-            return True
-
-        return False
+        return model
