@@ -2,35 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '../style.css';
 import Pad from './Pad';
 import * as Tone from 'tone';
-import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsColumnsGap, } from "react-icons/bs";
+import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsArrowBarDown, BsArrowBarUp} from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
 import { saveComposition, readComposition } from './../fire.js';
 
-function mapMeasures() {
-    const measure = [];
-    for(let i = 0; i < 16; i++) {
-      let notes = [
-        {note : "C", isActive: false, velocity: 0.9},
-        {note : "C#",isActive: false,  velocity: 0.9},
-        {note : "D", isActive: false, velocity: 0.9},
-        {note : "D#", isActive: false, velocity: 0.9},
-        {note : "E", isActive: false, velocity: 0.9},
-        {note : "F", isActive: false, velocity: 0.9},
-        {note : "F#", isActive: false, velocity: 0.9},
-        {note : "G", isActive: false, velocity: 0.9},
-        {note : "G#", isActive: false, velocity: 0.9},
-        {note : "A", isActive: false, velocity: 0.9},
-        {note : "A#", isActive: false, velocity: 0.9},
-        {note : "B", isActive: false, velocity: 0.9},
-        {note : "B#", isActive: false, velocity: 0.9}
-      ];
-      measure.push(notes);
-    }
-    
-    return measure;
-}
 
-const CHOSEN_OCTAVE = "4";
+const noteNames = ["C", "C#", "D", "D#","E", "F", "F#", "G", "G#", "A", "A#", "B", "B#"];
+
 
 const Sequence = ({uid, compId}) => {
     
@@ -40,6 +18,7 @@ const Sequence = ({uid, compId}) => {
 
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
+    const[currentNotes, setCurrentNotes] = useState([]);
     const[grid, setGrid] = useState(mapMeasure());
 
     // Boolean to handle if music is played or not
@@ -54,6 +33,7 @@ const Sequence = ({uid, compId}) => {
     // Used to visualize which column is making sound
     const [currentColumn, setCurrentColumn] = useState(null);
 
+    const [currCompId, setCurrCompId] = useState(compId === undefined ? "" : compId);
     
 
     //Notice the new PolySynth in use here, to support multiple notes at once
@@ -70,23 +50,17 @@ const Sequence = ({uid, compId}) => {
             let col = [];
             for(let oct = lowOctave; oct <= highOctave; oct++) {
                 let o = oct.toString();
-                //console.log("C" + o);
-                //let noteO = "C" + o;
-                let octave = [
-                    {note : "C"+o, isActive: false, velocity: 0.9},
-                    {note : "C#"+o,isActive: false,  velocity: 0.9},
-                    {note : "D"+o, isActive: false, velocity: 0.9},
-                    {note : "D#"+o, isActive: false, velocity: 0.9},
-                    {note : "E"+o, isActive: false, velocity: 0.9},
-                    {note : "F"+o, isActive: false, velocity: 0.9},
-                    {note : "F#"+o, isActive: false, velocity: 0.9},
-                    {note : "G"+o, isActive: false, velocity: 0.9},
-                    {note : "G#"+o, isActive: false, velocity: 0.9},
-                    {note : "A"+o, isActive: false, velocity: 0.9},
-                    {note : "A#"+o, isActive: false, velocity: 0.9},
-                    {note : "B"+o, isActive: false, velocity: 0.9},
-                    {note : "B#"+o, isActive: false, velocity: 0.9}
-                ];
+                
+                let octave = [];
+                noteNames.forEach((n) => {
+                    let currentNote = n+o;
+                    let isNoteActive = (currentNotes.find(
+                        e => e.note === currentNote && e.col === i) !== undefined);
+                    //if(isNoteActive) console.log(currentNote, i);
+                    octave.push({note: n+o, isActive: isNoteActive})
+                });
+                
+                // if(notes.find((e) => e.note === )
                 // add the octave to the column/step
                 col.push.apply(col, octave);
         
@@ -107,7 +81,8 @@ const Sequence = ({uid, compId}) => {
     }, [lowOctave, highOctave])
 
     
-
+    // toggles a note's UI on or off
+    // updates the grid as well as notes
     function togglePadPressedClass(clickedColumn, clickedNote){
         // Shallow copy of our grid with updated isActive
         let updatedGrid = grid.map((column, columnIndex) =>
@@ -116,9 +91,29 @@ const Sequence = ({uid, compId}) => {
             let cellCopy = cell;
     
             // Flip isActive for the clicked note-cell in our grid
+            // add/remove note from currentNotes
             if (columnIndex === clickedColumn && cellIndex === clickedNote) {
               cellCopy.isActive = !cell.isActive;
-              //console.log(cell);
+              
+              // notes.find(cell.note, cellIndex, columnIndex) ? swap with end and pop() : push()
+              let tempIndex = currentNotes.findIndex(e => 
+                e.note === cell.note && e.col === columnIndex);
+              // if temp is FOUND in current notes, swap with end and pop()
+              if(tempIndex !== -1) {
+                let currNotes = currentNotes;    
+                currNotes[tempIndex] = currNotes[currNotes.length-1];
+                currNotes.pop();
+                setCurrentNotes(currNotes);
+              }
+              // if not found, push to currentNotes
+              else {
+                  setCurrentNotes(currentNotes => [...currentNotes, {
+                    note: cell.note,
+                    row: cellIndex, 
+                    col: columnIndex
+                  }])
+              }
+                
             }
     
             return cellCopy;
@@ -126,14 +121,11 @@ const Sequence = ({uid, compId}) => {
         );
         
         setGrid(updatedGrid);
-        /*
-          pad.classList.contains("pad-pressed")
-        ? pad.classList.remove("pad-pressed")
-        : pad.classList.add("pad-pressed");
-        */
     }
 
     const onCompositionRead = (comp) => {
+        setLowOctave(comp.lowestOctave);
+        setHighOctave(comp.highestOctave);
         let notes = comp.notes;
         // map over those notes
         // and call togglePadPressed
@@ -159,23 +151,14 @@ const Sequence = ({uid, compId}) => {
     }
 
     const saveNotes = () => {
-        //console.log(grid);
-        let activeNotes = [];
-        grid.map((column, columnIndex) => 
-            column.map((cell, cellIndex) => {
-                // check if the cell is active
-                // append to object array with columnIndex, cellIndex, note
-                if(cell.isActive) {
-                    activeNotes.push({
-                        col: columnIndex,
-                        row: cellIndex,
-                        note: cell.note
-                    });
-                }
-            })
-        );
+        // sort the notes (just for fun)
+        setCurrentNotes(currentNotes.sort(function(a, b) {
+            return a.col - b.col;
+        }))
+        //console.log(currentNotes);
+        
         // call to firebase function, saveComposition
-        saveComposition(uid, name, bpm, CHOSEN_OCTAVE, activeNotes);
+        saveComposition(uid, name, bpm, lowOctave, highOctave, currentNotes);
     }
 
     const PlaySequence = async () => {
@@ -261,8 +244,12 @@ const Sequence = ({uid, compId}) => {
                             <BsFillTrashFill size={18}/>
                         </button>
                         <button id="addLowerOctave" className="navigation-buttons " 
-                            onClick={() => setLowOctave(lowOctave - 1)}>
-                            <BsFillTrashFill size={18}/>
+                            onClick={() => setLowOctave(lowOctave > 0 ? lowOctave - 1: lowOctave)}>
+                            <BsArrowBarDown size={18}/>
+                        </button>
+                        <button id="addHigherOctave" className="navigation-buttons " 
+                            onClick={() => setHighOctave(highOctave < 8 ? highOctave + 1: highOctave)}>
+                            <BsArrowBarUp size={18}/>
                         </button>
 
                 

@@ -27,7 +27,9 @@ const UserCompositions = ({uid, handleCompClick}) => {
                 id: key,
                 name: item.name,
                 bpm: item.bpm,
-                highestOctave: item.highestOctave,
+                // likes: item.likes
+                lowOct: item.lowOct,
+                highOct: item.highOct,
                 notes: item.notes
             })
         });
