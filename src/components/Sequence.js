@@ -79,8 +79,12 @@ const Sequence = ({uid, compId}) => {
         }
         setGrid(mapMeasure());
     }, [lowOctave, highOctave])
-
-    
+    // TODO: on composition load, load the correct number of octaves
+    /*
+    useEffect(() => {
+        setGrid(mapMeasure());
+    },)
+    */
     // toggles a note's UI on or off
     // updates the grid as well as notes
     function togglePadPressedClass(clickedColumn, clickedNote){
@@ -150,15 +154,28 @@ const Sequence = ({uid, compId}) => {
         setBPM(event.target.value);
     }
 
+    const callSetCompId = (key) => {
+        console.log("SetCurrCompId function callback");
+        setCurrCompId(key);
+    }
+
     const saveNotes = () => {
         // sort the notes (just for fun)
         setCurrentNotes(currentNotes.sort(function(a, b) {
             return a.col - b.col;
         }))
         //console.log(currentNotes);
-        
+        let compInfo = {
+            uid: uid,
+            compId: currCompId,
+            name: name,
+            bpm: bpm,
+            lowOctave: lowOctave,
+            highOctave: highOctave,
+        }
         // call to firebase function, saveComposition
-        saveComposition(uid, name, bpm, lowOctave, highOctave, currentNotes);
+        saveComposition(compInfo, currentNotes, callSetCompId);
+        
     }
 
     const PlaySequence = async () => {
