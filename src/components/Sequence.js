@@ -43,7 +43,7 @@ const Sequence = ({uid, compId}) => {
     function mapMeasure() {
         // complete 13*(high-low) X 16 length (init)
         const measure = [];
-        
+        // TODO: check this console.log
         // console.log("Low octave", lowOctave, "High Octave", highOctave);
         
         for(let i = 0; i < 16; i++) {

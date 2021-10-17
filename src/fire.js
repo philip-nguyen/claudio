@@ -15,8 +15,8 @@ var db = firebase.database();
 export function saveComposition(compInfo, notes, setCurrCompId) {
   var compListRef = db.ref("users/" + compInfo.uid + "/compositions");
   console.log(compInfo);
-  // TODO: perform update if compid exists
-  // push to the end of a list
+  
+  // push to the end of a list if no compId
   if(compInfo.compId === undefined || compInfo.compId === "") {
     var newCompPost = compListRef.push();
     newCompPost.set({
