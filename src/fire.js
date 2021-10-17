@@ -12,19 +12,46 @@ var firebaseConfig = {
 const fire = firebase.initializeApp(firebaseConfig);
 
 var db = firebase.database();
-export function saveComposition(uid, name, bpm, highestOctave, notes) {
-  var compListRef = db.ref("users/" + uid + "/compositions");
-  console.log(uid);
-  // push to the end of a list
-  var newCompPost = compListRef.push();
-  newCompPost.set({
-    // ... add notes and other metadata here
-    name: name,
-    bpm: bpm,
-    // synth: synth,
-    highestOctave: highestOctave,
-    notes: notes
-  });
+export function saveComposition(compInfo, notes, setCurrCompId) {
+  var compListRef = db.ref("users/" + compInfo.uid + "/compositions");
+  console.log(compInfo);
+  
+  // push to the end of a list if no compId
+  if(compInfo.compId === undefined || compInfo.compId === "") {
+    var newCompPost = compListRef.push();
+    newCompPost.set({
+      // ... add notes and other metadata here
+      name: compInfo.name,
+      published: false,
+      // likes: 0,
+      bpm: compInfo.bpm,
+      // synth: synth,
+      lowestOctave: compInfo.lowOctave,
+      highestOctave: compInfo.highOctave,
+      notes: notes
+    });
+    // set current comp id to key
+    console.log(newCompPost.key);
+    setCurrCompId(newCompPost.key);
+  }
+  // update with that key
+  else {
+    console.log("firebase update called!");
+    console.log(compInfo.compId);
+    var updateData = {
+      name: compInfo.name,
+      // likes: 0,
+      bpm: compInfo.bpm,
+      // synth: synth,
+      lowestOctave: compInfo.lowOctave,
+      highestOctave: compInfo.highOctave,
+      notes: notes
+    }
+    var updates = {};
+    updates['/' + compInfo.compId] = updateData;
+    compListRef.update(updates);
+  }
+  
   // save data under the current user 
   // dbRef.child(currentUser.uid).get()
 }
