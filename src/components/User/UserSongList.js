@@ -23,6 +23,7 @@ export default function SongList({compositions, uid, handleCompClick}) {
                             likes={songs[index%4].likes}
                             timeDate={songs[index%4].timeDate}
                             handleCompClick={handleCompClick}
+                            isPublished={value.published}
                             />
                             
                 }) : ""}

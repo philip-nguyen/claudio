@@ -56,6 +56,24 @@ export function saveComposition(compInfo, notes, setCurrCompId) {
   // dbRef.child(currentUser.uid).get()
 }
 
+// save to published composition list
+export function publishComposition(uid, compId, name) {
+  var publishListRef = db.ref("/publishedCompositions");
+  var newPublishPost = publishListRef.push();
+  
+  newPublishPost.set({
+    name: name,
+    uid: uid,
+    compId: compId
+  });
+  // update user/compid with published = true
+  var updateData = {
+    published: true
+  }
+  var compListRef = db.ref("users/" + uid + "/compositions/" + compId);
+  compListRef.update(updateData);
+}
+
 export const readCompositions = function(uid, onDataRead) {
   var compListRef = db.ref("/users"); 
   

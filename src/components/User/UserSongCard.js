@@ -4,7 +4,7 @@ import { Button, Card, Row, Col, Container } from "react-bootstrap";
 import { BsPlayFill } from "react-icons/bs";
 import PlayPause from "../PlayPause";
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
-import Sequence from './../Sequence';
+import { publishComposition } from "../../fire";
 
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -18,14 +18,18 @@ import "../SongCard.css"
 
 export default function UserSongCard(props) {
     //state = { showPlayButton: true };
-    
+    const [isPublished, setIsPublished] = useState(props.isPublished);
     const showPlayButton = true;
 
+    const publishButtonClicked = () => {
+        publishComposition(props.uid, props.compId, props.songName)
+        setIsPublished(!isPublished);
+    }
     return (
 
 
         <Container fluid id="container">
-            <Card style={{ width: "65rem", height: "7rem" }}>
+            <Card style={{ width: "65rem", height: "7rem" }} text="secondary">
                 <Card.Body id="body">
                     <Row sm={2}>
                         <Col sm={4}>
@@ -46,6 +50,13 @@ export default function UserSongCard(props) {
                         </Col>
                         <Col sm={2}>
                             <Button id="likeButton2" variant="primary">Like</Button>
+                        </Col>
+
+                        <Col sm={2}>
+                            {isPublished ? <Card.Text>Published</Card.Text> : 
+                                <Button onClick={publishButtonClicked}>Publish
+                                </Button>
+                            }
                         </Col>
                         
                         <Col sm={2}>
