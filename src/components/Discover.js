@@ -6,7 +6,7 @@ import { songs } from './SongList.js'
 import { Row } from "react-bootstrap";
 import { FaFacebookF } from "react-icons/fa";
 import { SocialIcon } from "react-social-icons";
-import { MDBContainer, MDBBtn, MDBIcon } from "mdbreact";
+//import { MDBContainer, MDBBtn, MDBIcon } from "mdbreact";
 
 //npm install react-table
 //npm install react-bootstrap bootstrap
