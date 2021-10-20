@@ -23,7 +23,6 @@ export function saveComposition(compInfo, notes, setCurrCompId) {
       // ... add notes and other metadata here
       name: compInfo.name,
       published: false,
-      // likes: 0,
       bpm: compInfo.bpm,
       // synth: synth,
       lowestOctave: compInfo.lowOctave,
@@ -57,21 +56,26 @@ export function saveComposition(compInfo, notes, setCurrCompId) {
 }
 
 // save to published composition list
-export function publishComposition(uid, compId, name) {
-  var publishListRef = db.ref("/publishedCompositions");
-  var newPublishPost = publishListRef.push();
+export function publishComposition(userId, cId, sName) {
+  // push a new published composition
+  var publishListRef = db.ref('publishedCompositions');
+  var newPublishPost = publishListRef.push(); // gives key 
   
+  // add published post with song name, uid, compId, and likes = 0
   newPublishPost.set({
-    name: name,
-    uid: uid,
-    compId: compId
+    name: sName,
+    uid: userId,
+    compId: cId,
+    likes: 0
   });
+  
   // update user/compid with published = true
   var updateData = {
     published: true
   }
-  var compListRef = db.ref("users/" + uid + "/compositions/" + compId);
+  var compListRef = db.ref("users/" + userId + "/compositions/" + cId);
   compListRef.update(updateData);
+  
 }
 
 export const readCompositions = function(uid, onDataRead) {
