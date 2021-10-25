@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../style.css';
 import Pad from './Pad';
 import * as Tone from 'tone';
+import { playSequence } from './ToneAPI';
 import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsArrowBarDown, BsArrowBarUp} from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
 import { saveComposition, readComposition } from './../fire.js';
@@ -180,59 +181,11 @@ const Sequence = ({uid, compId}) => {
         
     }
 
-    const PlaySequence = async () => {
-        // Variable for storing our notes in an appropriate format for our synth
-        let notes = [];
-        grid.map((step) => {
-            let stepNotes = [];
-            step.map(
-                (shouldPlay) =>
-                    // If isActive, push the given note + octave
-                    // (shouldPlay.isActive) console.log(shouldPlay.note);
-                    shouldPlay.isActive &&
-                    stepNotes.push(shouldPlay.note)
-            );
-            notes.push(stepNotes);
-        });
-
-        //console.log(notes);
-        // Starts our Tone Context
-        await Tone.start();
-
-        // Tone.Sequence()
-        // @param callback
-        // @param "events" to send with callback
-        // @param subdivision  to engage callback
-        const Sequencer = new Tone.Sequence(
-            (time, step) => {
-                // Highlight column with styling
-                setCurrentColumn(step);
-
-                // Sends the active note to our Polysynth
-                synth.triggerAttackRelease(notes[step], "16n", time);
-            },
-            // can use [...Array(grid.length).keys()] 
-            // to get the length of the grid dynamically
-            [...Array(grid.length).keys()],
-            "16n"
-        );
-        if (isPlaying) {
-            // Turn of our player if music is currently playing
-            setIsPlaying(false);
-            setCurrentColumn(null);
-      
-            await Tone.Transport.stop();
-            await Sequencer.stop();
-            await Sequencer.clear();
-            await Sequencer.dispose();
-      
-            return;
-        }
-        setIsPlaying(true);
-        // Toggles playback of our musical masterpiece
-        await Sequencer.start();
-        await Tone.Transport.start();
+    const playSeq = () => {
+        // Tone API call
+        playSequence(currentNotes, isPlaying, grid.length, setIsPlaying, setCurrentColumn);
     }
+    
 
 
     return (
@@ -252,7 +205,7 @@ const Sequence = ({uid, compId}) => {
                             <BsFillPauseFill size={18}/>
                         </button>
                         <button id="play" className="navigation-buttons fa fa-play"
-                            onClick={() => PlaySequence()}>
+                            onClick={() => playSeq()}>
                             <BsPlayFill size={18}/>
                         </button>
                         <button id="record" className="navigation-buttons fa fa-microphone"
