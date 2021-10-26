@@ -13,7 +13,7 @@ import * as Tone from 'tone';
  * @param {*} isPlaying bool functional hook
  * @param {*} numSteps just send 16, for extensibility purposes
  * @param {*} setIsPlaying isPlaying callback function
- * @param {*} setCurrentColumn 
+ * @param {*} setCurrentColumn for use in sequencer component only
  */
 export function playSequence(notes, isPlaying, numSteps, setIsPlaying, setCurrentColumn = undefined) {
     // TODO: extend synth to allow for different types of samples
