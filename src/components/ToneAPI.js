@@ -2,6 +2,19 @@ import * as Tone from 'tone';
 
 // should take in the a composition including:
 // notes[], bpm, synth
+
+/**
+ * playSequence function
+ * @param {*} notes notes data from firebase; ex. of input:
+ * notes = [{note: 'B#4', row: 0, col: 1}, 
+ *          {note: 'G4', row: 2, col: 2}, 
+ *          {note: 'F4', row: 3, col: 4}, 
+ *          {note: 'E4', row: 6, col: 6}, ]
+ * @param {*} isPlaying bool functional hook
+ * @param {*} numSteps just send 16, for extensibility purposes
+ * @param {*} setIsPlaying isPlaying callback function
+ * @param {*} setCurrentColumn 
+ */
 export function playSequence(notes, isPlaying, numSteps, setIsPlaying, setCurrentColumn = undefined) {
     // TODO: extend synth to allow for different types of samples
     const synth = new Tone.PolySynth(Tone.Synth).toDestination();
@@ -14,7 +27,6 @@ export function playSequence(notes, isPlaying, numSteps, setIsPlaying, setCurren
     }
     // push notes into appropriate column
     for (let i = 0 ; i < notes.length; i++) {
-      console.log(notes[i]);
       notesByStep[notes[i].col].push(notes[i].note);
     }
 
