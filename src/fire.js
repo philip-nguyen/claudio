@@ -112,4 +112,20 @@ export const readComposition = function(uid, compId, onDataRead) {
   })
 }
 
+// Read the published comps
+export const readPublishedComps = function(onDataRead) {
+  db.ref("publishedCompositions").get()
+  .then((snapshot) => {
+    if(snapshot.exists()) {
+      console.log(snapshot.val());
+      onDataRead(snapshot.val());
+    }
+    else {
+      console.log("No Data Available");
+    }
+  }).catch((error) => {
+    console.log(error);
+  })
+}
+
 export default fire;
