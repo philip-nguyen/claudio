@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { readPublishedComps } from "../fire";
 import "./Discover.css";
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import SongList from "./SongList.js";
@@ -35,6 +36,18 @@ function sortByDate() {
 export default function Discover() {
     const [dropdownOpen, setOpen] = useState(false);
     const toggle = () => setOpen(!dropdownOpen);
+
+    const readPubs = () => {
+        // read pubs and send function call back to set comps
+        readPublishedComps(onPubDataRead);
+    }
+
+    // function callback to work with the data from firebase
+    const onPubDataRead = (pubComps) => {
+        Object.keys(pubComps).forEach(function(key) {
+            console.log(key, pubComps[key].uid, pubComps[key].compId, pubComps[key].name);
+        });
+    }
 
     return (
         <>
