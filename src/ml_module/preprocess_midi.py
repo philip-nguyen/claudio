@@ -160,7 +160,7 @@ class Preprocessor:
             to train a Machine Learning model. 
 
             Parameters:
-                notes [List]: A list of notes to create sequences.
+                notes [List]: A sequence of notes to create sequences.
 
                 sequence_length[int]: Number of notes in one training 
                                       sequence.
@@ -173,7 +173,7 @@ class Preprocessor:
                                         sequence - to train a Machine Learning 
                                         model.
         """
-        # distinct_notes [int]: A number of disctinct notes imported for sequencing.
+        # distinct_notes [int]: A number of distinct notes imported for sequencing.
         distinct_notes = len(set(notes))
 
         # Extracting distinct pitch names
