@@ -2,6 +2,8 @@
     an LSTM Machine Learning model.
     """
 # Importing keras modules
+import os
+import pickle
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, LSTM, Activation, BatchNormalization as BatchNorm
@@ -10,7 +12,7 @@ from keras.callbacks import ModelCheckpoint
 import tensorflow as tf
 
 # Importing datetime
-import datetime
+from datetime import datetime
 
 # Importing customer modules
 from preprocess_midi import Preprocessor
@@ -102,3 +104,41 @@ class Trainer:
             model.save(filepath)
 
         return model
+
+
+if __name__ == '__main__':
+
+    NUM_NOTES = 30
+    SEQUENCE_LENGTH = 10
+
+    midi_file = 'input_midi_files/bcm.mid'
+
+    #notes = Preprocessor().midi_to_notes(midi_file)
+
+    all_notes = []
+
+    directory = 'input_midi_files/'
+
+    for num, filename in enumerate(os.listdir(directory)):
+
+        notes = Preprocessor().midi_to_notes(os.path.join(directory, filename))
+        all_notes.extend(notes)
+
+        if num > NUM_NOTES:
+            break
+
+    date = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
+
+    with open(f'artifacts/notes/notes-{date}.pkl', 'wb') as note_files:
+        pickle.dump(notes, note_files)
+
+    NUM_DISTINCT_OUTPUTS = len(set(all_notes))
+
+    input_sequences, output_sequences = Preprocessor().sequence(all_notes,
+                                                                SEQUENCE_LENGTH)
+
+    model = Trainer().create_model(input_sequences, NUM_DISTINCT_OUTPUTS)
+
+    model.summary()
+
+    Trainer().train(model, input_sequences, output_sequences, save=True)
