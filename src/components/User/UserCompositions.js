@@ -53,10 +53,10 @@ const UserCompositions = ({uid, handleCompClick}) => {
 
             <h1>Hello User</h1>
             <div id="socialsGroup">
-                <SocialIcon network="facebook" url = "https://www.facebook.com" class="facebookIcon" />
-                <SocialIcon network="twitter" url = "https://twitter.com" class="twitterIcon" />
-                <SocialIcon network="instagram" url = "https://instagram.com" class="instagramIcon" />
-                <SocialIcon network="spotify" url = "https://spotify.com" class="spotifyIcon" />
+                <SocialIcon network="facebook" url = "https://www.facebook.com" className="facebookIcon" />
+                <SocialIcon network="twitter" url = "https://twitter.com" className="twitterIcon" />
+                <SocialIcon network="instagram" url = "https://instagram.com" className="instagramIcon" />
+                <SocialIcon network="spotify" url = "https://spotify.com" className="spotifyIcon" />
             </div>
             <Row>
                 <Col>

@@ -15,16 +15,16 @@ const Navbar = ({handleLogout}) => {
       <Nav>
         <Bars />
         <NavMenu>
-        <HomeIcon to='/Home' activeStyle>
+        <HomeIcon to='/Home' >
             ClAud-io
           </HomeIcon>
-          <NavLink to='/compositions' activeStyle>
+          <NavLink to='/compositions' >
             Compositions
           </NavLink>
-          <NavLink to='/discover' activeStyle>
+          <NavLink to='/discover' >
           Discover
           </NavLink>
-          <NavLink to='/sequence' activeStyle>
+          <NavLink to='/sequence' >
           Sequence
           </NavLink>
         </NavMenu>

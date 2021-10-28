@@ -22,7 +22,7 @@ const Sequence = ({uid, compId}) => {
     // A nested array of objects is not performant, but is easier to understand
     // performance is not an issue at this stage anyway
     const[currentNotes, setCurrentNotes] = useState([]);
-    const[grid, setGrid] = useState(mapMeasure());
+    const[grid, setGrid] = useState([]);
 
     // Boolean to handle if music is played or not
     const [isPlaying, setIsPlaying] = useState(false);
@@ -43,12 +43,21 @@ const Sequence = ({uid, compId}) => {
     const[synth, setSynth] = useState(new Tone.PolySynth().toDestination());
     //const synth = new Tone.PolySynth().toDestination();
 
+    // run load notes ONCE at the start, and if there is a compId 
+    useEffect(() => {
+        if(compId) loadNotes(uid, compId);
+    },[]);
+
+    // when currentNotes changes from loadNotes, set the grid
+    useEffect(() => {
+        setGrid(mapMeasure);
+    },[currentNotes]);
+
     function mapMeasure() {
         // complete 13*(high-low) X 16 length (init)
         const measure = [];
         // TODO: check this console.log
-        // console.log("Low octave", lowOctave, "High Octave", highOctave);
-        
+        // console.log("lowOct", lowOctave, "highOct", highOctave);
         for(let i = 0; i < 16; i++) {
             let col = [];
             for(let oct = lowOctave; oct <= highOctave; oct++) {
@@ -75,19 +84,7 @@ const Sequence = ({uid, compId}) => {
         return measure;
     }
 
-    // IF compId is NOT undefined
-    useEffect(() => {
-        if(compId !== undefined && compId !== '') {
-            loadNotes(uid, compId);
-        }
-        setGrid(mapMeasure());
-    }, [lowOctave, highOctave])
-    // TODO: on composition load, load the correct number of octaves
-    /*
-    useEffect(() => {
-        setGrid(mapMeasure());
-    },)
-    */
+    
     // toggles a note's UI on or off
     // updates the grid as well as notes
     function togglePadPressedClass(clickedColumn, clickedNote){
@@ -131,14 +128,11 @@ const Sequence = ({uid, compId}) => {
     }
 
     const onCompositionRead = (comp) => {
+        console.log("onCompositionRead function called");
         setLowOctave(comp.lowestOctave);
         setHighOctave(comp.highestOctave);
-        let notes = comp.notes;
-        // map over those notes
-        // and call togglePadPressed
-        notes.map((currNote) => {
-            togglePadPressedClass(currNote.col, currNote.row);
-        });
+        // console.log("high oct", highOctave); // shows 4 bc setState is async
+        setCurrentNotes(comp.notes);
     } 
 
     function loadNotes(uid, compId) {
@@ -304,10 +298,10 @@ const Sequence = ({uid, compId}) => {
             </div>
 
             <div id="socialsGroup">
-                <SocialIcon network="facebook" url = "https://www.facebook.com" class="facebookIcon" />
-                <SocialIcon network="twitter" url = "https://twitter.com" class="twitterIcon" />
-                <SocialIcon network="instagram" url = "https://instagram.com" class="instagramIcon" />
-                <SocialIcon network="spotify" url = "https://spotify.com" class="spotifyIcon" />
+                <SocialIcon network="facebook" url = "https://www.facebook.com" className="facebookIcon" />
+                <SocialIcon network="twitter" url = "https://twitter.com" className="twitterIcon" />
+                <SocialIcon network="instagram" url = "https://instagram.com" className="instagramIcon" />
+                <SocialIcon network="spotify" url = "https://spotify.com" className="spotifyIcon" />
             </div>
         </div>
         
