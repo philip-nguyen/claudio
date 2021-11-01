@@ -11,44 +11,19 @@ export const songs = [
 ];
 
 export default function DiscoverSongList({compositions, uid, handleCompClick}) {
-    const [comps, setComps] = useState([]);
-    console.log("SongList test");
-
-    // function callback to work with the data from firebase
-    const onDataRead = (items) => {
-        console.log("Calling on dataread SongCard");
-        let c = [];
-
-        //JSON object mapping
-        Object.keys(items).forEach(function(key) {
-            console.log(key, items[key]);
-            let item = items[key];
-            c.push({
-                id: key,
-                name: item.name,
-                bpm: item.bpm,
-                // likes: item.likes
-                lowOct: item.lowOct,
-                highOct: item.highOct,
-                notes: item.notes
-            })
-        });
-        setComps(c);
-    }
-
-
+    console.log(compositions)
     return (
 
         <div >
             <ul>
             { compositions ? compositions.map((value, index) => {
                     return <SongCard 
-                            uid={uid} 
-                            compId={value.id}
+                            uid={value.uid} 
+                            compId={value.compId}
                             songName={value.name} 
                             likes={songs[index%4].likes}
                             //timeDate={songs[index%4].timeDate}
-                            handleCompClick={handleCompClick}
+                            //handleCompClick={handleCompClick}
                             //isPublished={value.published}
                             />
                             

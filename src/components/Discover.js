@@ -39,6 +39,8 @@ const Discover = ({uid, handleCompClick}) => {
     const [dropdownOpen, setOpen] = useState(false);
     const toggle = () => setOpen(!dropdownOpen);
     const [pubComps, setComps] = useState([]);
+    let c = [];
+
 
     const readPubs = () => {
         // read pubs and send function call back to set comps
@@ -48,25 +50,26 @@ const Discover = ({uid, handleCompClick}) => {
     // function callback to work with the data from firebase
     const onPubDataRead = (pubComps) => {
         console.log("Calling on dataread");
-        let c = [];
         Object.keys(pubComps).forEach(function(key) {
             //console.log(key, pubComps[key].uid, pubComps[key].compId, pubComps[key].name);
             let item = pubComps[key];
             c.push({
-                id: key,
+                uid: item.uid,
+                compId: item.compId,
                 name: item.name,
 
             })
         });
-        console.log("pubComps:" + pubComps)
         setComps(c);
     }
 
     useEffect(() => {
+        console.log("c is: ", c[0]);
+        console.log("c:" , c)
+
         readPubs();
     }, []);
 
-   
 
     return (
         <>

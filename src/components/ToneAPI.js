@@ -25,8 +25,10 @@ export function playSequence(notes, isPlaying, numSteps, setIsPlaying, setCurren
     for (var i = 0; i < numSteps; i++) {
       notesByStep[i] = [];
     }
+    console.log(notesByStep[0]);
     // push notes into appropriate column
     for (let i = 0 ; i < notes.length; i++) {
+      console.log(notesByStep[0], notes[i].note, notes[i].col);
       notesByStep[notes[i].col].push(notes[i].note);
     }
 
