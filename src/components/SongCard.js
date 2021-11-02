@@ -97,13 +97,7 @@ export default function SongCard({uid, compId, songName, likes}) {
     function loadNotes() {
         // use compId + uid to get specific composition's notes
         readComposition(uid, compId, onDataRead);
-    }
-
-    function findIndex(array, uid) {
-        let position = array.map(function(e) {return e.uid}).indexOf(uid);
-    }
-    
-    
+    }  
 
     return (
 
