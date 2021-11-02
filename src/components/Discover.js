@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { readPublishedComps } from "../fire";
+import React, { useEffect, useState } from "react";
+import { readCompositions, readPublishedComps } from "../fire";
 import "./Discover.css";
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import SongList from "./SongList.js";
@@ -7,6 +7,8 @@ import { songs } from './SongList.js'
 import { Row } from "react-bootstrap";
 import { FaFacebookF } from "react-icons/fa";
 import { SocialIcon } from "react-social-icons";
+import UserSongList from "./User/UserSongList.js";
+
 //import { MDBContainer, MDBBtn, MDBIcon } from "mdbreact";
 
 //npm install react-table
@@ -33,9 +35,12 @@ function sortByDate() {
 
 
 
-export default function Discover() {
+const Discover = ({uid, handleCompClick}) => {
     const [dropdownOpen, setOpen] = useState(false);
     const toggle = () => setOpen(!dropdownOpen);
+    const [pubComps, setComps] = useState([]);
+    let c = [];
+
 
     const readPubs = () => {
         // read pubs and send function call back to set comps
@@ -44,18 +49,31 @@ export default function Discover() {
 
     // function callback to work with the data from firebase
     const onPubDataRead = (pubComps) => {
+        console.log("Calling on dataread");
         Object.keys(pubComps).forEach(function(key) {
-            console.log(key, pubComps[key].uid, pubComps[key].compId, pubComps[key].name);
+            //console.log(key, pubComps[key].uid, pubComps[key].compId, pubComps[key].name);
+            let item = pubComps[key];
+            c.push({
+                uid: item.uid,
+                compId: item.compId,
+                name: item.name,
+
+            })
         });
+        setComps(c);
     }
+
+    useEffect(() => {
+        console.log("c is: ", c[0]);
+        console.log("c:" , c)
+
+        readPubs();
+    }, []);
+
 
     return (
         <>
             <hr />
-
-            
-
-
             <h1>Discover Community Compositions</h1>
             <div id="socialsGroup">
                 <SocialIcon network="facebook" url = "https://www.facebook.com" class="facebookIcon" />
@@ -80,7 +98,7 @@ export default function Discover() {
                 </ButtonDropdown>
             </Row>
             <Row id="songListRow">
-                <SongList id="songList">
+            <SongList id="songList" compositions={pubComps} uid={uid} handleCompClick={handleCompClick}>
                 </SongList>
             </Row>
             
@@ -88,5 +106,5 @@ export default function Discover() {
     );
 }
 
-
+export default Discover;
 
