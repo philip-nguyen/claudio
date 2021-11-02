@@ -22,7 +22,7 @@ export default function UserSongCard(props) {
     const showPlayButton = true;
 
     const publishButtonClicked = () => {
-        publishComposition(props.uid, props.compId, props.songName)
+        publishComposition(props.uid, props.compId, props.songName, props.notes)
         setIsPublished(!isPublished);
     }
     return (

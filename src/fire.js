@@ -39,7 +39,7 @@ export function saveComposition(compInfo, notes, setCurrCompId) {
     console.log(compInfo.compId);
     var updateData = {
       name: compInfo.name,
-      // likes: 0,
+      published: false,
       bpm: compInfo.bpm,
       // synth: synth,
       lowestOctave: compInfo.lowOctave,
@@ -48,6 +48,7 @@ export function saveComposition(compInfo, notes, setCurrCompId) {
     }
     var updates = {};
     updates['/' + compInfo.compId] = updateData;
+    // updates['/' + compInfo.compId + '/name'] = 
     compListRef.update(updates);
   }
   
@@ -56,7 +57,7 @@ export function saveComposition(compInfo, notes, setCurrCompId) {
 }
 
 // save to published composition list
-export function publishComposition(userId, cId, sName) {
+export function publishComposition(userId, cId, sName, notes) {
   // push a new published composition
   var publishListRef = db.ref('publishedCompositions');
   var newPublishPost = publishListRef.push(); // gives key 
@@ -66,6 +67,7 @@ export function publishComposition(userId, cId, sName) {
     name: sName,
     uid: userId,
     compId: cId,
+    notes: notes,
     likes: 0
   });
   
