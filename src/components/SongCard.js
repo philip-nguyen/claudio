@@ -19,11 +19,7 @@ export default function SongCard({uid, compId, songName, likes}) {
     //const [play, playComp] = useState([]);
     const [isPlaying, setIsPlaying] = useState(false);
     const [comp, setComp] = useState([]);
-    const [currentUID, setUID] = useState(uid);
-    const [currentCompId, setCompId] = useState(compId);
 
-
-    let c = []; 
     let d = [];
 
     let numSteps = 16;
@@ -42,54 +38,27 @@ export default function SongCard({uid, compId, songName, likes}) {
             //console.log(key, pubComps[key].uid, pubComps[key].compId, pubComps[key].name);
             let item = pubComps[key];
 
-            //console.log("test1: ", item.uid);
-            //console.log("test2: ", item.compId);
-            //console.log("pubComps:" + pubComps)
-
-        {
              d.push({
                 id: key,
                 name: item.name,
                 uid: item.uid,
                 compId: item.compId
             })
-        }
-           
         });
-       
-
     }
     
+    useEffect(() => {
+        // if compId and uid are present, then loadNotes
+        if(compId && uid) loadNotes();
+    },[]);
 
      // function callback to work with the data from firebase
-     const onDataRead = (item) => {
-        console.log("Calling on dataread SongCard");
-        console.log("item.notes: ", item.notes);
+    const onDataRead = (item) => {
         setComp(item.notes);
-        //JSON object mapping
-        /*Object.keys(items).forEach(function(key) {
-            console.log(key, items[key]);
-            let item = items[key];
-            c.push({
-                id: key,
-                songName: item.name,
-                bpm: item.bpm,
-                likes: item.likes,
-                lowOct: item.lowOct,
-                highOct: item.highOct,
-                notes: item.notes
-            })
-        });
-        console.log("c is: ", c);
-        console.log()
-        setComps(c);
-    */
+        
     }
 
     function playComp() {
-        loadNotes(uid, compId);
-        console.log("numSteps: ", numSteps);
-        console.log("comp", comp);
         playSequence(comp, isPlaying, numSteps, setIsPlaying, setCurrentColumn)
     }
 
