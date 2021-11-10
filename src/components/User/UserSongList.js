@@ -20,9 +20,11 @@ export default function SongList({compositions, uid, handleCompClick}) {
                             uid={uid} 
                             compId={value.id}
                             songName={value.name} 
-                            likes={songs[index].likes}
-                            timeDate={songs[index].timeDate}
+                            notes={value.notes}
+                            likes={songs[index%4].likes}
+                            timeDate={songs[index%4].timeDate}
                             handleCompClick={handleCompClick}
+                            isPublished={value.published}
                             />
                             
                 }) : ""}
