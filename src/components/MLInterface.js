@@ -1,23 +1,19 @@
-let {spawn} = require('child_process');
 
 export function formatNotesArray(notes) {
-    for(let i = 0; i < notes.length; i++) {
-        console.log(i, notes[i]);
-    }
+    notes.sort(function(a, b) {
+        return a.col - b.col;
+    })
+    console.log(notes);
+    const reqOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(notes)
+    }    
+    console.log(reqOptions.body);
+    fetch('/predict', reqOptions)
+    .then(response => response.json()) // returns a promise
+    .then(result => {
+        console.log(result);
+    })
     
 }
-
-/*
-
-export function runMl(notes) {
-    let options = {
-        mode: 'json',
-        args: notes
-    }
-
-    PythonShell.run('../ml_module/mlify.py', options, function (err, results) {
-        if (err) throw err;
-        console.log('results', results);
-    });
-}
-*/
