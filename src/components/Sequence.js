@@ -3,10 +3,13 @@ import '../style.css';
 import Pad from './Pad';
 import * as Tone from 'tone';
 import { playSequence } from './ToneAPI';
-import { BsPlayFill, BsFillPauseFill, BsFillTrashFill, BsArrowBarDown, BsArrowBarUp} from "react-icons/bs";
+import { BsPlayFill, BsFillPauseFill, 
+    BsFillTrashFill, BsArrowBarDown, 
+    BsArrowBarUp, BsFillCpuFill } from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
 import { saveComposition, readComposition } from './../fire.js';
 import { SocialIcon } from "react-social-icons";
+import { formatNotesArray } from './MLInterface';
 
 
 
@@ -217,6 +220,10 @@ const Sequence = ({uid, compId}) => {
                         <button id="addHigherOctave" className="navigation-buttons " 
                             onClick={() => setHighOctave(highOctave < 8 ? highOctave + 1: highOctave)}>
                             <BsArrowBarUp size={18}/>
+                        </button>
+                        <button id="predict" className="navigation-buttons"
+                            onClick={() => formatNotesArray(currentNotes)} >
+                                <BsFillCpuFill size={18} /> 
                         </button>
 
                 
