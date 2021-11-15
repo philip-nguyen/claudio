@@ -9,7 +9,7 @@ import { BsPlayFill, BsFillPauseFill,
 import { BiSave } from "react-icons/bi";
 import { saveComposition, readComposition } from './../fire.js';
 import { SocialIcon } from "react-social-icons";
-import { formatNotesArray } from './MLInterface';
+import { sendNotesArray } from './MLInterface';
 
 
 
@@ -183,7 +183,18 @@ const Sequence = ({uid, compId}) => {
         playSequence(currentNotes, isPlaying, grid.length, setIsPlaying, setCurrentColumn);
     }
     
+    const mlGenerate = () => {
+        sendNotesArray(currentNotes, addMlGeneratedNotes);
+    }
 
+    const addMlGeneratedNotes = (notes) => {
+        //console.log(notes);
+        for(let i = 0; i < notes.length; i++) {
+            console.log(notes[i]);
+            // TODO: check if array, parse the string if -, bring down a note, add octave if none
+            // use of regex?
+        }
+    }
 
     return (
         <div>
@@ -222,7 +233,7 @@ const Sequence = ({uid, compId}) => {
                             <BsArrowBarUp size={18}/>
                         </button>
                         <button id="predict" className="navigation-buttons"
-                            onClick={() => formatNotesArray(currentNotes)} >
+                            onClick={() => mlGenerate()} >
                                 <BsFillCpuFill size={18} /> 
                         </button>
 

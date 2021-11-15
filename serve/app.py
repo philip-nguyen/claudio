@@ -34,7 +34,7 @@ def makecalc():
                 # pop off an array or singular note
                 if isinstance(noteSameColumn, list):
                     noteSameColumn.append(currNote['note'])
-                    mlify_notes.append(noteSameColumn);
+                    mlify_notes.append(noteSameColumn)
                 # is a singular note
                 else:
                     mlify_notes.append([noteSameColumn, currNote['note']])
@@ -66,4 +66,5 @@ if __name__ == '__main__':
 
     # runs the app
     # to run the app locally use host='127.0.0.1'
-    app.run(debug=True, host='127.0.0.1')
+    # "proxy": "http://13.56.140.173:5000"
+    app.run(debug=True, host='0.0.0.0')
