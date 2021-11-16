@@ -12,8 +12,7 @@ import { SocialIcon } from "react-social-icons";
 import { sendNotesArray } from './MLInterface';
 
 
-
-const noteNames = ["C", "C#", "D", "D#","E", "F", "F#", "G", "G#", "A", "A#", "B", "B#"];
+const noteNames = ["C", "C#", "D", "D#","E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 
 const Sequence = ({uid, compId}) => {
@@ -96,7 +95,7 @@ const Sequence = ({uid, compId}) => {
            
             column.map((cell, cellIndex) => {
             let cellCopy = cell;
-    
+            
             // Flip isActive for the clicked note-cell in our grid
             // add/remove note from currentNotes
             if (columnIndex === clickedColumn && cellIndex === clickedNote) {
@@ -183,16 +182,52 @@ const Sequence = ({uid, compId}) => {
         playSequence(currentNotes, isPlaying, grid.length, setIsPlaying, setCurrentColumn);
     }
     
+    // send notes array to ML module with callback function
     const mlGenerate = () => {
         sendNotesArray(currentNotes, addMlGeneratedNotes);
     }
 
+    // callback function for received ML generated notes
     const addMlGeneratedNotes = (notes) => {
-        //console.log(notes);
-        for(let i = 0; i < notes.length; i++) {
-            console.log(notes[i]);
-            // TODO: check if array, parse the string if -, bring down a note, add octave if none
-            // use of regex?
+        for(let i = 0; i < notes.length && i < 4; i++) {
+            // check if array, parse the string if -, bring down a note, add octave if none
+
+            if(Array.isArray(notes[i])) {
+                // parse through array
+                for(let j = 0; j < notes[i].length ; j++) {
+                    let noteStr = notes[i][j];
+                    let parsedNote = '';
+                    
+                    const whiteKey = noteNames.indexOf(noteStr[0]);
+                    // get base note
+                    
+                    // check if there is a '-', then bring down the note
+                    // const regex = /-/g;
+                    if(noteStr.search(/-/g) !== -1) {
+                        // if the '-' is found
+                        parsedNote += noteNames[whiteKey - 1];
+                    }
+                    else if(noteStr.search(/#/g) !== -1) {
+                        // if a '#' is found
+                        parsedNote += noteStr.substring(0, 2);
+                    }
+                    else parsedNote += noteStr[0];
+                    
+                    // check for octave, and place in the lowest
+                    parsedNote += lowOctave.toString();
+
+                    // console.log(parsedNote);
+                    // Add to currentnotes if not already
+                    let tempIndex = currentNotes.findIndex(e => 
+                        e.note === parsedNote && e.col === i*4);
+                    if(tempIndex === -1) { // not found 
+                        setCurrentNotes(currentNotes => [...currentNotes, {
+                            note: parsedNote,
+                            col: i*4
+                          }])
+                    }
+                }
+            }
         }
     }
 
@@ -209,9 +244,6 @@ const Sequence = ({uid, compId}) => {
             <div id="sequencer">
                 <div className="sequencer">
                     <div id="controls" className="buttons">
-                        <button id="stop" className="navigation-buttons fa fa-stop" >
-                            <BsFillPauseFill size={18}/>
-                        </button>
                         <button id="play" className="navigation-buttons fa fa-play"
                             onClick={() => playSeq()}>
                             <BsPlayFill size={18}/>
@@ -274,24 +306,6 @@ const Sequence = ({uid, compId}) => {
                                     onChange={handleBpmChange}/>
                             </div>
                         </div>
-
-                        
-                        <ul className="notes">
-                            
-                            <li>B#4</li>
-                            <li>B4</li>
-                            <li>A#4</li>
-                            <li>A4</li>
-                            <li>G#4</li>
-                            <li>G4</li>
-                            <li>F#4</li>
-                            <li>F4</li>
-                            <li>E4</li>
-                            <li>D#4</li>
-                            <li>D4</li>
-                            <li>C#4</li>
-                            <li>C4</li>
-                        </ul>
                         
                         
                     </div>
@@ -315,12 +329,7 @@ const Sequence = ({uid, compId}) => {
                 </div>
             </div>
 
-            <div id="socialsGroup">
-                <SocialIcon network="facebook" url = "https://www.facebook.com" className="facebookIcon" />
-                <SocialIcon network="twitter" url = "https://twitter.com" className="twitterIcon" />
-                <SocialIcon network="instagram" url = "https://instagram.com" className="instagramIcon" />
-                <SocialIcon network="spotify" url = "https://spotify.com" className="spotifyIcon" />
-            </div>
+            
         </div>
         
         
@@ -328,3 +337,12 @@ const Sequence = ({uid, compId}) => {
 }
 
 export default Sequence;
+
+/*
+<div id="socialsGroup">
+                <SocialIcon network="facebook" url = "https://www.facebook.com" className="facebookIcon" />
+                <SocialIcon network="twitter" url = "https://twitter.com" className="twitterIcon" />
+                <SocialIcon network="instagram" url = "https://instagram.com" className="instagramIcon" />
+                <SocialIcon network="spotify" url = "https://spotify.com" className="spotifyIcon" />
+            </div>
+ */
