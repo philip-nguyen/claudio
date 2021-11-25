@@ -8,14 +8,15 @@ import { BsPlayFill, BsFillPauseFill,
     BsArrowBarUp, BsFillCpuFill } from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
 import { saveComposition, readComposition } from './../fire.js';
-import { SocialIcon } from "react-social-icons";
 import { sendNotesArray } from './MLInterface';
+import LoadingMessage from './LoadingMessage';
+import { withThemeCreator } from '@material-ui/styles';
 
 
 const noteNames = ["C", "C#", "D", "D#","E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 
-const Sequence = ({uid, compId}) => {
+const Sequence = ({uid, compId, compName}) => {
     
     // range of octaves, [lowOctave, highOctave]
     const [highOctave, setHighOctave] = useState(4);
@@ -30,7 +31,7 @@ const Sequence = ({uid, compId}) => {
     const [isPlaying, setIsPlaying] = useState(false);
 
     // Track name
-    const [name, setName] = useState("");
+    const [name, setName] = useState(compName);
 
     // BPM 
     const [bpm, setBPM] = useState(120);
@@ -40,10 +41,12 @@ const Sequence = ({uid, compId}) => {
 
     const [currCompId, setCurrCompId] = useState(compId === undefined ? "" : compId);
     
+    const [isGenerating, setIsGenerating] = useState(false);
 
     //Notice the new PolySynth in use here, to support multiple notes at once
     const[synth, setSynth] = useState(new Tone.PolySynth().toDestination());
-    //const synth = new Tone.PolySynth().toDestination();
+    
+    const [successAlert, setSuccessAlert] = useState(false);
 
     // run load notes ONCE at the start, and if there is a compId 
     useEffect(() => {
@@ -53,7 +56,7 @@ const Sequence = ({uid, compId}) => {
     // when currentNotes changes from loadNotes, set the grid
     useEffect(() => {
         setGrid(mapMeasure);
-    },[currentNotes]);
+    },[currentNotes, lowOctave, highOctave]);
 
     function mapMeasure() {
         // complete 13*(high-low) X 16 length (init)
@@ -184,11 +187,15 @@ const Sequence = ({uid, compId}) => {
     
     // send notes array to ML module with callback function
     const mlGenerate = () => {
+        setIsGenerating(true);
         sendNotesArray(currentNotes, addMlGeneratedNotes);
     }
 
+    
     // callback function for received ML generated notes
     const addMlGeneratedNotes = (notes) => {
+        setIsGenerating(false);
+        setSuccessAlert(true);
         for(let i = 0; i < notes.length && i < 4; i++) {
             // check if array, parse the string if -, bring down a note, add octave if none
 
@@ -229,17 +236,33 @@ const Sequence = ({uid, compId}) => {
                 }
             }
         }
+        // successBanner();
     }
+
+    
 
     return (
         <div>
+            {successAlert ? 
+            <div className="alert alert-success fade show alert-bar" role="alert" >
+                <strong>Holy quacamole!</strong> We generates some notes for you!
+                <button type="button" onClick={() => setSuccessAlert(false)} className="close alert-bar" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> : ""
+            }
+            
             <div className="input-group mb-3 transparent-input">
                 <div className="input-group-prepend">
                     <span className="input-group-text" id="basic-addon1">Name</span>
                     
                 </div>
-                <input type="text" id="name" placeholder="Track X" onChange={(e) => setName(e.target.value)}/>
+                <input type="text" id="name" placeholder="Track X" onChange={(e) => setName(e.target.value)}
+                    value={name}/>
+                
             </div>
+
+            {isGenerating ? <LoadingMessage h1="Generating Notes..."/> : ""}
 
             <div id="sequencer">
                 <div className="sequencer">
