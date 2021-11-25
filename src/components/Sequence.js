@@ -47,6 +47,7 @@ const Sequence = ({uid, compId, compName}) => {
     const[synth, setSynth] = useState(new Tone.PolySynth().toDestination());
     
     const [successAlert, setSuccessAlert] = useState(false);
+    const [saveAlert, setSaveAlert] = useState(false);
 
     // run load notes ONCE at the start, and if there is a compId 
     useEffect(() => {
@@ -159,6 +160,7 @@ const Sequence = ({uid, compId, compName}) => {
     const callSetCompId = (key) => {
         console.log("SetCurrCompId function callback");
         setCurrCompId(key);
+        setSaveAlert(true);
     }
 
     const saveNotes = () => {
@@ -246,7 +248,16 @@ const Sequence = ({uid, compId, compName}) => {
             {successAlert ? 
             <div className="alert alert-success fade show alert-bar" role="alert" >
                 <strong>Holy quacamole!</strong> We generates some notes for you!
-                <button type="button" onClick={() => setSuccessAlert(false)} className="close alert-bar" aria-label="Close">
+                <button type="button" onClick={() => setSuccessAlert(false)} className="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> : ""
+            }
+
+            {saveAlert ? 
+            <div className="alert alert-success fade show alert-bar" role="alert" >
+                <strong>Hurray!</strong> Successfully saved your composition!
+                <button type="button" onClick={() => setSaveAlert(false)} className="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div> : ""

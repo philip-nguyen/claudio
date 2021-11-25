@@ -9,7 +9,7 @@ body {
   overflow-y: auto;
 }
 
-.alert-bar button {
+.alert-bar:first-line button {
   display: inline-block
 }
 
@@ -29,6 +29,11 @@ body {
 
 .loader p {
   margin-left: 10px;
+}
+
+.note {
+  padding-top: 3px;
+  text-align: center;
 }
 
 .sequencer {

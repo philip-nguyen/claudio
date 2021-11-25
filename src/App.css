@@ -8,13 +8,17 @@
 button {
   border: none;
   outline: none;
-  width: 100%;
+  
   padding: 15px 0;
   color: #fff;
   font-size: 16px;
   letter-spacing: 1px;
   background: #3eb360;
   cursor: pointer;
+}
+
+.login-button {
+  width: 100%;
 }
 
 .loginPageContainer{
