@@ -9,6 +9,33 @@ body {
   overflow-y: auto;
 }
 
+.alert-bar:first-line button {
+  display: inline-block
+}
+
+.alert {
+  margin: auto;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  
+}
+
+.loader {
+  padding-top: 10px;
+}
+.loader div {
+  display: inline-block;
+}
+
+.loader p {
+  margin-left: 10px;
+}
+
+.note {
+  padding-top: 3px;
+  text-align: center;
+}
+
 .sequencer {
   /*position: absolute;
   top: 50%;
@@ -16,16 +43,17 @@ body {
   -webkit-transform: translate(-50%, -55%);
   transform: translate(-50%, -55%);*/
   height: 70%;
-  width: 80%;
+  width: 65rem;
   padding: 1em;
   background: #28282c;
   border-radius: 4px;
+  margin: auto;
 }
 
 .transparent-input {
   background-color: rgba(0, 0, 0, 0) !important;
   border:none !important;
-  margin-left: 4rem;
+  margin-left: 2rem;
 }
 
 .notes {

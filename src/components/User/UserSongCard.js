@@ -34,7 +34,7 @@ export default function UserSongCard(props) {
                     <Row sm={2}>
                         <Col sm={4}>
                             <Card.Title id="songTitle" style={{ fontSize: 25, color: "#3eb360" }}>
-                                <Link to="/sequence" onClick={() => props.handleCompClick(props.compId)}>{props.songName}</Link>
+                                <Link to="/sequence" onClick={() => props.handleCompClick(props.compId, props.songName)}>{props.songName}</Link>
                             </Card.Title>
                             <Card.Subtitle id="date" className="mb-2 text-muted">
                                 {props.timeDate}
@@ -48,13 +48,11 @@ export default function UserSongCard(props) {
                         <Col sm={2}>
                             <Card.Text id="likes2">{props.likes}</Card.Text>
                         </Col>
-                        <Col sm={2}>
-                            <Button id="likeButton2" variant="primary">Like</Button>
-                        </Col>
+                        
 
                         <Col sm={2}>
                             {isPublished ? <Card.Text>Published</Card.Text> : 
-                                <Button onClick={publishButtonClicked}>Publish
+                                <Button id="likeButton2" onClick={publishButtonClicked}>Publish
                                 </Button>
                             }
                         </Col>
