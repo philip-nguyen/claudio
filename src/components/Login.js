@@ -14,8 +14,6 @@ const Login = (props) => {
         setHasAccount,
         emailError,
         passwordError,
-        isReset,
-        setIsReset,
         setReset
     } = props;
     return(

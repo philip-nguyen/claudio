@@ -19,6 +19,7 @@ const App = () => {
   const [hasAccount, setHasAccount] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [compId, setCompId] = useState('');
+  const [currSongName, setCurrSongName] = useState("");
 
   const clearInputs = () => {
     setEmail('');
@@ -113,8 +114,9 @@ const App = () => {
       authListener();
     }, []);
 
-    const handleCompClick = (id) => {
+    const handleCompClick = (id, songName) => {
       setCompId(id);
+      setCurrSongName(songName);
     }
 
   return(
@@ -130,7 +132,7 @@ const App = () => {
           <Route path='/discover' component={Discover} />
           <Route path='/sequence' 
                 render={() => (
-                  <Sequence uid={user.uid} compId={compId}/>
+                  <Sequence uid={user.uid} compId={compId} compName={currSongName}/>
                 )}
                 />
         </Switch>
