@@ -11,17 +11,43 @@ export const songs = [
 ];
 
 export default function DiscoverSongList({compositions, uid, handleCompClick}) {
-    console.log(compositions)
+    // console.log(compositions)
+    const [currPlayingSong, setCurrPlayingSong] = useState(null);
+    
+    const isPlaying = (key) => {
+        return currPlayingSong === key;
+    }
+
+    const playerButtonClicked = (key) => {
+        console.log("player button clicked");
+        
+        // if no player button clicked OR currPlayingSong is null
+        if(key !== currPlayingSong || currPlayingSong === undefined) { 
+            console.log(key, currPlayingSong);
+            setCurrPlayingSong(key);
+            
+        }
+        
+    }
+
+    useEffect(() => {
+
+    },[])
     return (
 
         <div >
             <ul>
             { compositions ? compositions.map((value, index) => {
+                    
                     return <SongCard 
+                            key={value.key}
                             uid={value.uid} 
                             compId={value.compId}
                             songName={value.name} 
                             likes={songs[index%4].likes}
+                            notes={value.notes}
+                            currPlayingSong={currPlayingSong}
+                            playerButtonClicked={playerButtonClicked}
                             //timeDate={songs[index%4].timeDate}
                             //handleCompClick={handleCompClick}
                             //isPublished={value.published}

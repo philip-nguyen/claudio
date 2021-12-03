@@ -1,7 +1,7 @@
 
 import React, {useEffect, useState} from "react";
 import { Button, Card, Row, Col, Container } from "react-bootstrap";
-import { BsPlayFill } from "react-icons/bs";
+import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { readPublishedComps, readComposition } from "../fire";
 import { playSequence } from "./ToneAPI"
 
@@ -13,12 +13,14 @@ import "./SongCard.css"
 // npm install @material-ui/icons
 // npm install react-icons
 
-export default function SongCard({uid, compId, songName, likes}) {
+export default function SongCard({uid, compId, songName, likes, notes,
+     currPlayingSong, playerButtonClicked}) {
+    
     //state = { showPlayButton: true };
     const showPlayButton = true;
     //const [play, playComp] = useState([]);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [comp, setComp] = useState([]);
+    const [comp, setComp] = useState(notes);
 
     let d = [];
 
@@ -42,31 +44,25 @@ export default function SongCard({uid, compId, songName, likes}) {
                 id: key,
                 name: item.name,
                 uid: item.uid,
-                compId: item.compId
+                compId: item.compId,
             })
+            setComp(item.notes);
         });
-    }
-    
-    useEffect(() => {
-        // if compId and uid are present, then loadNotes
-        if(compId && uid) loadNotes();
-    },[]);
-
-     // function callback to work with the data from firebase
-    const onDataRead = (item) => {
-        setComp(item.notes);
         
     }
+    
 
     function playComp() {
-        playSequence(comp, isPlaying, numSteps, setIsPlaying, setCurrentColumn)
+        playerButtonClicked({
+            uid: uid, 
+            compId: compId,
+            name:songName
+        });
+        console.log("suppy");
+        playSequence(comp, isPlaying, numSteps, setIsPlaying, setCurrentColumn);
     }
 
-    // gets notes from firebase to play composition 
-    function loadNotes() {
-        // use compId + uid to get specific composition's notes
-        readComposition(uid, compId, onDataRead);
-    }  
+     
 
     return (
 
@@ -86,7 +82,8 @@ export default function SongCard({uid, compId, songName, likes}) {
                         </Col>
 
                         <Col sm={2}>
-                            <BsPlayFill id = "playButton" onClick={() => playComp()}></BsPlayFill>
+                            {isPlaying ? <BsPauseFill id = "playButton" onClick={() => playComp()}></BsPauseFill> 
+                            : <BsPlayFill id="playButton" onClick={() => playComp()}></BsPlayFill> }
                         </Col>   
                         <Col sm={2}>
                             <Card.Text id="likes">{likes}</Card.Text>
@@ -114,3 +111,20 @@ SongCard.propTypes = {
     likes: PropTypes.string.isRequired,
     timeDate: PropTypes.string
 }
+
+/* loading notes from compositions instead of pubComps
+    useEffect(() => {
+        // if compId and uid are present, then loadNotes
+        if(compId && uid) loadNotes();
+    },[]);
+    // gets notes from firebase to play composition 
+    function loadNotes() {
+        // use compId + uid to get specific composition's notes
+        readComposition(uid, compId, onDataRead);
+    } 
+    // function callback to work with the data from firebase
+    const onDataRead = (item) => {
+        setComp(item.notes);
+        
+    }
+    */

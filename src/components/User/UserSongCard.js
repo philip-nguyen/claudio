@@ -1,7 +1,7 @@
 
 import React, {useState} from "react";
 import { Button, Card, Row, Col, Container } from "react-bootstrap";
-import { BsPlayFill } from "react-icons/bs";
+import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import PlayPause from "../PlayPause";
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import { publishComposition } from "../../fire";

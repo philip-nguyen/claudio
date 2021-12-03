@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { readCompositions, readPublishedComps } from "../fire";
 import "./Discover.css";
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import SongList from "./SongList.js";
+import DiscoverSongList from "./SongList.js";
 import { songs } from './SongList.js'
 import { Row } from "react-bootstrap";
 import { FaFacebookF } from "react-icons/fa";
@@ -54,9 +54,11 @@ const Discover = ({uid, handleCompClick}) => {
             //console.log(key, pubComps[key].uid, pubComps[key].compId, pubComps[key].name);
             let item = pubComps[key];
             c.push({
+                key: key,
                 uid: item.uid,
                 compId: item.compId,
                 name: item.name,
+                notes: item.notes
 
             })
         });
@@ -76,10 +78,10 @@ const Discover = ({uid, handleCompClick}) => {
             <hr />
             <h1>Discover Community Compositions</h1>
             <div id="socialsGroup">
-                <SocialIcon network="facebook" url = "https://www.facebook.com" class="facebookIcon" />
-                <SocialIcon network="twitter" url = "https://twitter.com" class="twitterIcon" />
-                <SocialIcon network="instagram" url = "https://instagram.com" class="instagramIcon" />
-                <SocialIcon network="spotify" url = "https://spotify.com" class="spotifyIcon" />
+                <SocialIcon network="facebook" url = "https://www.facebook.com" className="facebookIcon" />
+                <SocialIcon network="twitter" url = "https://twitter.com" className="twitterIcon" />
+                <SocialIcon network="instagram" url = "https://instagram.com" className="instagramIcon" />
+                <SocialIcon network="spotify" url = "https://spotify.com" className="spotifyIcon" />
             </div>
 
 
@@ -98,8 +100,8 @@ const Discover = ({uid, handleCompClick}) => {
                 </ButtonDropdown>
             </Row>
             <Row id="songListRow">
-            <SongList id="songList" compositions={pubComps} uid={uid} handleCompClick={handleCompClick}>
-                </SongList>
+            <DiscoverSongList id="songList" compositions={pubComps} uid={uid} handleCompClick={handleCompClick}>
+                </DiscoverSongList>
             </Row>
             
         </>
