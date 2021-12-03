@@ -17,7 +17,7 @@ export default function SongList({compositions, uid, handleCompClick}) {
             <ul>
                 { compositions ? compositions.map((value, index) => {
                     return <UserSongCard 
-                        
+                            key={value.key}
                             uid={uid} 
                             compId={value.id}
                             songName={value.name} 

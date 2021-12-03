@@ -25,10 +25,10 @@ const UserCompositions = ({uid, handleCompClick}) => {
 
         //JSON object mapping
         Object.keys(items).forEach(function(key) {
-            console.log(key, items[key]);
+            //console.log(key, items[key]);
             let item = items[key];
             c.push({
-                id: key,
+                key: key,
                 name: item.name,
                 bpm: item.bpm,
                 // likes: item.likes

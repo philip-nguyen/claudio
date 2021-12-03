@@ -29,9 +29,7 @@ export default function UserSongCard(props) {
     }
 
     function playComp() {
-        
-        console.log("suppy");
-        playSequence(props.notes, isPlaying, 16, setIsPlaying, undefined);
+        playSequence(props.notes, isPlaying, 16, setIsPlaying);
     }
 
     return (
