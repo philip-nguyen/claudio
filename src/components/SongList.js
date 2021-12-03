@@ -44,7 +44,7 @@ export default function DiscoverSongList({compositions, uid, handleCompClick}) {
                             uid={value.uid} 
                             compId={value.compId}
                             songName={value.name} 
-                            likes={songs[index%4].likes}
+                            likes={value.likes}
                             notes={value.notes}
                             currPlayingSong={currPlayingSong}
                             playerButtonClicked={playerButtonClicked}

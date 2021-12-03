@@ -58,7 +58,7 @@ export default function SongCard({uid, compId, songName, likes, notes,
             compId: compId,
             name:songName
         });
-        console.log("suppy");
+        
         playSequence(comp, isPlaying, numSteps, setIsPlaying, setCurrentColumn);
     }
 
@@ -86,7 +86,7 @@ export default function SongCard({uid, compId, songName, likes, notes,
                             : <BsPlayFill id="playButton" onClick={() => playComp()}></BsPlayFill> }
                         </Col>   
                         <Col sm={2}>
-                            <Card.Text id="likes">{likes}</Card.Text>
+                            <Card.Text id="likes">{likes} Likes</Card.Text>
                         </Col>
                         
                         <Col sm={4}>
