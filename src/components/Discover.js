@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { readCompositions, readPublishedComps } from "../fire";
 import "./Discover.css";
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import SongList from "./SongList.js";
+import DiscoverSongList from "./SongList.js";
 import { songs } from './SongList.js'
 import { Row } from "react-bootstrap";
 import { FaFacebookF } from "react-icons/fa";
@@ -18,20 +18,7 @@ import UserSongList from "./User/UserSongList.js";
 //npm install react-social-media-buttons
 
 
-function sortByTag() {
-    songs.sort((a, b) => (a.name > b.name) ? 1 : -1);
-    document.getElementById('filter').innerHTML = "Tag";
-}
 
-function sortByPopularity() {
-    songs.sort((a, b) => (a.likes < b.likes) ? 1 : -1);
-    document.getElementById('filter').innerHTML = "Popularity";
-}
-
-function sortByDate() {
-    songs.sort((a, b) => (a.timeDate < b.timeDate) ? 1 : -1)
-    document.getElementById('filter').innerHTML = "Date";
-}
 
 
 
@@ -54,14 +41,32 @@ const Discover = ({uid, handleCompClick}) => {
             //console.log(key, pubComps[key].uid, pubComps[key].compId, pubComps[key].name);
             let item = pubComps[key];
             c.push({
+                key: key,
                 uid: item.uid,
                 compId: item.compId,
                 name: item.name,
-
+                notes: item.notes,
+                likes: item.likes
             })
         });
         setComps(c);
     }
+
+    function sortByTag() {
+        pubComps.sort((a, b) => (a.name > b.name) ? 1 : -1);
+        document.getElementById('filter').innerHTML = "Name";
+    }
+    
+    function sortByPopularity() {
+        pubComps.sort((a, b) => (a.likes < b.likes) ? 1 : -1);
+        document.getElementById('filter').innerHTML = "Likes";
+    }
+    
+    function sortByDate() {
+        pubComps.sort((a, b) => (a.key < b.key) ? 1 : -1)
+        document.getElementById('filter').innerHTML = "Recent";
+    }
+    
 
     useEffect(() => {
         console.log("c is: ", c[0]);
@@ -76,10 +81,10 @@ const Discover = ({uid, handleCompClick}) => {
             <hr />
             <h1>Discover Community Compositions</h1>
             <div id="socialsGroup">
-                <SocialIcon network="facebook" url = "https://www.facebook.com" class="facebookIcon" />
-                <SocialIcon network="twitter" url = "https://twitter.com" class="twitterIcon" />
-                <SocialIcon network="instagram" url = "https://instagram.com" class="instagramIcon" />
-                <SocialIcon network="spotify" url = "https://spotify.com" class="spotifyIcon" />
+                <SocialIcon network="facebook" url = "https://www.facebook.com" className="facebookIcon" />
+                <SocialIcon network="twitter" url = "https://twitter.com" className="twitterIcon" />
+                <SocialIcon network="instagram" url = "https://instagram.com" className="instagramIcon" />
+                <SocialIcon network="spotify" url = "https://spotify.com" className="spotifyIcon" />
             </div>
 
 
@@ -91,15 +96,15 @@ const Discover = ({uid, handleCompClick}) => {
                         Filter
                     </DropdownToggle>
                     <DropdownMenu id="menuChoices">
-                        <DropdownItem id="tag" onClick={sortByTag}>tag</DropdownItem>
-                        <DropdownItem id="popularity" onClick={sortByPopularity}>popularity</DropdownItem>
-                        <DropdownItem id="recent" onClick={sortByDate}>recent</DropdownItem>
+                        <DropdownItem id="tag" onClick={sortByTag}>Name</DropdownItem>
+                        <DropdownItem id="popularity" onClick={sortByPopularity}>Likes</DropdownItem>
+                        <DropdownItem id="recent" onClick={sortByDate}>Recent</DropdownItem>
                     </DropdownMenu>
                 </ButtonDropdown>
             </Row>
             <Row id="songListRow">
-            <SongList id="songList" compositions={pubComps} uid={uid} handleCompClick={handleCompClick}>
-                </SongList>
+            <DiscoverSongList id="songList" compositions={pubComps} uid={uid} handleCompClick={handleCompClick}>
+                </DiscoverSongList>
             </Row>
             
         </>

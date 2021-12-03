@@ -1,10 +1,11 @@
 
 import React, {useState} from "react";
 import { Button, Card, Row, Col, Container } from "react-bootstrap";
-import { BsPlayFill } from "react-icons/bs";
+import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import PlayPause from "../PlayPause";
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import { publishComposition } from "../../fire";
+import { playSequence } from "../ToneAPI";
 
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -19,12 +20,20 @@ import "../SongCard.css"
 export default function UserSongCard(props) {
     //state = { showPlayButton: true };
     const [isPublished, setIsPublished] = useState(props.isPublished);
+    const [isPlaying, setIsPlaying] = useState(false);
     const showPlayButton = true;
 
     const publishButtonClicked = () => {
         publishComposition(props.uid, props.compId, props.songName, props.notes)
         setIsPublished(!isPublished);
     }
+
+    function playComp() {
+        
+        console.log("suppy");
+        playSequence(props.notes, isPlaying, 16, setIsPlaying, undefined);
+    }
+
     return (
 
 
@@ -42,11 +51,11 @@ export default function UserSongCard(props) {
                         </Col>
 
                         <Col sm={2}>
-                            <BsPlayFill id = "playButton2"></BsPlayFill>
+                            <BsPlayFill id = "playButton2" onClick={() => playComp()}></BsPlayFill>
                         </Col>
 
                         <Col sm={2}>
-                            <Card.Text id="likes2">{props.likes}</Card.Text>
+                            <Card.Text id="likes2"></Card.Text>
                         </Col>
                         
 
